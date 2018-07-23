@@ -12,7 +12,7 @@
 
 @interface Parser : NSObject <NSXMLParserDelegate>
 @property (strong, nonatomic) Object* object;
-@property (strong, nonatomic) NSMutableArray<Object*>* arrayOfObjects;
-@property (strong, nonatomic) NSDictionary *tags;
+@property (strong, nonatomic) NSMutableArray* arrayOfObjects;
+@property (strong, nonatomic) NSArray *tags;
 - (instancetype)initWithURL:(NSURL*)url resourceType:(SourceType)sourceType;
 @end

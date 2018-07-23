@@ -9,5 +9,8 @@
 #import "Content.h"
 
 @implementation Content
-
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Local lin - %@, webLink - %@", self.localLink, self.webLink];
+}
 @end

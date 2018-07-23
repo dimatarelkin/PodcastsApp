@@ -9,5 +9,8 @@
 #import "Image.h"
 
 @implementation Image
-
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"localLink - %@, webLink - %@", self.localLink, self.webLink];
+}
 @end

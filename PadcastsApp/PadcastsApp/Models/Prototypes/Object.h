@@ -17,14 +17,14 @@ typedef enum {
 
 
 @interface Object : NSObject
-@property (strong, nonatomic) NSString  * guiD;
-@property (strong, nonatomic) NSString  * title;
-@property (strong, nonatomic) NSString  * author;
-@property (strong, nonatomic) NSString  * descrip;
-@property (strong, nonatomic) Content   * content;
-@property (strong, nonatomic) Image     * image;
-@property (strong, nonatomic) NSString  * duration;
-@property (strong, nonatomic) NSString  * publicationDate;
-@property (assign, nonatomic) SourceType  sourceType;
+@property (strong, nonatomic) NSString  *guiD;
+@property (strong, nonatomic) NSString  *title;
+@property (strong, nonatomic) NSString  *author;
+@property (strong, nonatomic) NSString  *descrip;
+@property (strong, nonatomic) Content   *content;
+@property (strong, nonatomic) Image     *image;
+@property (strong, nonatomic) NSString  *duration;
+@property (strong, nonatomic) NSString  *publicationDate;
+@property (assign, nonatomic) SourceType sourceType;
 
 @end
