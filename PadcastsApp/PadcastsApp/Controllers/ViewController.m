@@ -11,7 +11,7 @@
 #import "CustomCellTableViewCell.h"
 
 @interface ViewController ()
-@property (strong, nonatomic)NSArray* dataSource;
+@property (strong, nonatomic)NSMutableArray* dataSource;
 @end
 
 @implementation ViewController
@@ -22,18 +22,17 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    self.dataSource = [NSMutableArray array];
     
     NSURL* urlMP3 = [NSURL URLWithString:@"https://rss.simplecast.com/podcasts/4669/rss"];
     NSURL* urlTED = [NSURL URLWithString:@"https://feeds.feedburner.com/tedtalks_video"];
     Parser* mp3 = [[Parser alloc] initWithURL:urlMP3 resourceType:0];
+    mp3.delegate = self;
     Parser* ted = [[Parser alloc] initWithURL:urlTED resourceType:1];
+    ted.delegate = self;
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -44,7 +43,13 @@
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.dataSource.count;
+}
+
+-(void)downloadingWasFinishedWithResult:(NSArray*)result {
+    [self.dataSource addObjectsFromArray:result];
+    [self.tableView reloadData];
+    NSLog(@"count = %lu",(unsigned long)self.dataSource.count);
 }
 //
 //- (void)encodeWithCoder:(nonnull NSCoder *)aCoder { 

@@ -67,14 +67,11 @@
     NSArray* data = [NSArray arrayWithArray: [self getResultsFrom:self.arrayOfObjects]];
     
     //inform the delegate
-    
+    [self.delegate downloadingWasFinishedWithResult:data];
     
 }
 
 
--(void)informDelegate {
-    
-}
 
 
 

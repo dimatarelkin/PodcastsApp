@@ -8,9 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "ItemObject.h"
+#import "ViewController.h"
+
+
+@protocol ParserDelegate <NSObject>
+-(void)downloadingWasFinishedWithResult:(NSArray*)result;
+@end
 
 @interface Parser : NSObject <NSXMLParserDelegate>
+
+@property (weak, nonatomic) id<ParserDelegate> delegate;
+
 @property (strong, nonatomic) NSMutableArray* arrayOfObjects;
 @property (strong, nonatomic) NSArray *tags;
 - (instancetype)initWithURL:(NSURL*)url resourceType:(SourceType)sourceType;
 @end
+
+
