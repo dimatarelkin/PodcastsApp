@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ItemObject.h"
-#import "ViewController.h"
+
 
 
 @protocol ParserDelegate <NSObject>

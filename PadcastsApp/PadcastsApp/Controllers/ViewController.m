@@ -14,6 +14,9 @@
 @property (strong, nonatomic)NSMutableArray* dataSource;
 @end
 
+
+static NSString * const kCellIdentifier = @"customCellIdentifier";
+
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -38,7 +41,14 @@
     return 1;
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    CustomCellTableViewCell *cell = [[CustomCellTableViewCell alloc] init];
+    CustomCellTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    
+    ItemObject *item = [[ItemObject alloc] init];
+    item.title = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] title];
+    item.author = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] author];
+    
+    cell.title.text = item.title;
+    cell.author.text = item.author;
     return cell;
 }
 

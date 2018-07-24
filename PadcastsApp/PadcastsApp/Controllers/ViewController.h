@@ -11,7 +11,7 @@
 
  
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ParserDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 
