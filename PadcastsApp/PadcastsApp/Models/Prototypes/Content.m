@@ -11,6 +11,6 @@
 @implementation Content
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Local lin - %@, webLink - %@", self.localLink, self.webLink];
+    return [NSString stringWithFormat:@"webLink - %@", self.webLink];
 }
 @end

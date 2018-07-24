@@ -15,21 +15,9 @@
 @property (strong, nonatomic) NSURL * url;
 @property (strong, nonatomic) NSString * currentElement;
 @property (strong, nonatomic) NSMutableDictionary *resultObject;
+@property (assign, nonatomic) SourceType currentSourceType;
 
 @end
-
-//    NSString *urlString = @"https://rss.simplecast.com/podcasts/4669/rss";
-
-static NSString * const kElementItem        = @"item";
-static NSString * const kElementTitle       = @"title";
-static NSString * const kElementAuthor      = @"itunes:author";
-static NSString * const kElementDescription = @"description";
-static NSString * const kElementContent     = @"enclosure";
-static NSString * const kElementImage       = @"itunes:image";
-static NSString * const kElementDuration    = @"itunes:duration";
-static NSString * const kElementPubDate     = @"pubDate";
-static NSString * const kElementID          = @"guid";
-
 
 
 
@@ -38,14 +26,14 @@ static NSString * const kElementID          = @"guid";
 - (instancetype)initWithURL:(NSURL*)url resourceType:(SourceType)sourceType {
     self = [super init];
     if (self) {
-        self.tags = @[kElementItem, kElementTitle, kElementAuthor,
-                      kElementDescription, kElementContent,
-                      kElementImage,kElementPubDate, kElementID];
+        self.currentSourceType = sourceType;
+        self.tags = @[kElementItem,    kElementTitle,
+                      kElementAuthor,  kElementDescription,
+                      kElementDuration,kElementPubDate, kElementID];
         [self downloadDataFromURL:url];
     }
     return self;
 }
-
 
 
 
@@ -58,9 +46,8 @@ static NSString * const kElementID          = @"guid";
         dispatch_async(dispatch_get_main_queue(), ^{
             self.xmlParser = [[NSXMLParser alloc] initWithData:data];
             self.xmlParser.delegate = self;
-            [self.xmlParser parse];
+            [self.xmlParser parse]; //async
         });
-        [session invalidateAndCancel];
     }];
     [downloadTask resume];
 }
@@ -69,70 +56,107 @@ static NSString * const kElementID          = @"guid";
 
 #pragma mark NSXMLParserDelegate
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.arrayOfObjects = [[NSMutableArray alloc] init];
+    self.arrayOfObjects = [[NSMutableArray alloc] init]; //array of dicts
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     //reload smth when parsing did ends
-    NSLog(@"opbjects = %@ , %d", [self.arrayOfObjects componentsJoinedByString:@"\n"], self.arrayOfObjects.count);
+    NSLog(@"objects =  %lu", (unsigned long)self.arrayOfObjects.count);
+    
+    //parser ends work
+    NSArray* data = [NSArray arrayWithArray: [self getResultsFrom:self.arrayOfObjects]];
+    
+    //inform the delegate
+    
+    
+}
+
+
+-(void)informDelegate {
+    
+}
+
+
+
+
+-(NSArray*)getResultsFrom:(NSMutableArray*)arrayOfDicts {
+    NSMutableArray* results = [NSMutableArray array];
+    for (NSDictionary* objects in arrayOfDicts) {
+        ItemObject* obj = [[ItemObject alloc] initWithDictionary:objects andSourceType:self.currentSourceType];
+//        NSLog(@"obj = %@", [obj description]);
+        [results addObject:obj];
+    }
+    return results;
 }
 
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName attributes:(NSDictionary<NSString *, NSString *> *)attributeDict {
-
     self.currentElement = elementName;
+
     if ([self.currentElement isEqualToString:kElementItem]) {
         self.resultObject = [NSMutableDictionary dictionary];
+        
         for ( NSString* tag in self.tags ) {
             self.resultObject[tag] = [[NSMutableString alloc] init];
         }
     }
     
+    if ([self.currentElement isEqualToString:kElementImage]) {
+        [self.resultObject setObject:[attributeDict objectForKey:@"href"] forKey:kElementImage];
+    }
+
+    if ([self.currentElement isEqualToString:kElementContent]) {
+        [self.resultObject setObject:[attributeDict objectForKey:@"url"] forKey:kElementContent];
+    }
 }
 
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-
+    
+    NSString * resultString;
     for ( NSString* tag in self.tags) {
         if ([self.currentElement isEqualToString:tag]) {
-            [self.resultObject[tag] appendString:string];
+            resultString = [self parseString:string];
+            [self.resultObject[tag] appendString:resultString];
         }
     }
-//        if ([self.currentElement isEqualToString:kElementTitle]) {
-//            [self.object setTitle:string];
-//            NSLog(@"title - %@, string = %@",self.object.title, string);
-//        } else if ([self.currentElement isEqualToString: kElementDescription]) {
-//            self.object.descrip = string;
-//            NSLog(@"descrip - %@, string = %@",self.object.descrip, string);
-//        } else if ([self.currentElement isEqualToString: kElementPubDate]) {
-//            self.object.publicationDate = string;
-//            NSLog(@"publicationDate - %@, string = %@",self.object.publicationDate, string);
-//        } else if ([self.currentElement isEqualToString: kElementAuthor]) {
-//            self.object.author = string;
-//            NSLog(@"author - %@, string = %@",self.object.author, string);
-//        } else if ([self.currentElement isEqualToString: kElementImage]) {
-//            self.object.image.webLink = string;
-//            NSLog(@"image - %@, string = %@",self.object.image.webLink, string);
-//        } else if ([self.currentElement isEqualToString: kElementDuration]) {
-//            self.object.duration = string;
-//            NSLog(@"duration - %@, string = %@",self.object.duration, string);
-//        } else if ([self.currentElement isEqualToString: kElementContent]) {
-//            self.object.content.webLink = string;
-//            NSLog(@"content - %@, string = %@",self.object.content.webLink, string);
-//        } else if ([self.currentElement isEqualToString: kElementID]){
-//            self.object.guiD = string;
-//            NSLog(@"guid - %@, string = %@",self.object.guiD, string);
-//        }
-
 }
+
+
+-(NSString*)parseString:(NSString*)string {
+    NSMutableString * resultString = [NSMutableString stringWithString:string];
+    NSRange range;
+//    [string stringByReplacingOccurrencesOfString:@"  " withString:@""];
+//    [string stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+//    [string stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    
+    if ([resultString containsString:@"\n      "]) {
+        range = [resultString rangeOfString:@"\n      "];
+        [resultString deleteCharactersInRange:range];
+    }
+    
+    if ([resultString containsString:@"  "]) {
+        range = [resultString rangeOfString:@"  "];
+        [resultString deleteCharactersInRange:range];
+    }
+    
+    if ([resultString containsString:@"\n"]) {
+        range = [resultString rangeOfString:@"\n"];
+        [resultString deleteCharactersInRange:range];
+    }
+    
+    return [resultString copy];
+}
+
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName {
 
     if ([elementName isEqualToString: kElementItem]) {
         [self.arrayOfObjects addObject:self.resultObject];
-        NSLog(@"%@",[self.resultObject description]);
+//        NSLog(@"%@",[self.resultObject description]);
     }
 }
+
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
     NSLog(@"%@",[parseError localizedDescription]);

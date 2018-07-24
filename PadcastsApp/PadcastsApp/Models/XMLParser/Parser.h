@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Manager.h"
-#import "Object.h"
+#import "ItemObject.h"
 
 @interface Parser : NSObject <NSXMLParserDelegate>
-@property (strong, nonatomic) Object* object;
 @property (strong, nonatomic) NSMutableArray* arrayOfObjects;
 @property (strong, nonatomic) NSArray *tags;
 - (instancetype)initWithURL:(NSURL*)url resourceType:(SourceType)sourceType;

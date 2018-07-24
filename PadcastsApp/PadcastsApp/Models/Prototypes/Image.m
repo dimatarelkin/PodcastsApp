@@ -11,6 +11,6 @@
 @implementation Image
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"localLink - %@, webLink - %@", self.localLink, self.webLink];
+    return [NSString stringWithFormat:@"webLink - %@", self.webLink];
 }
 @end

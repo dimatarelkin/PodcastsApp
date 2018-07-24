@@ -15,8 +15,19 @@ typedef enum {
     TEDSourceType
 } SourceType;
 
+static NSString * const kElementItem        = @"item";
+static NSString * const kElementTitle       = @"title";
+static NSString * const kElementAuthor      = @"itunes:author";
+static NSString * const kElementDescription = @"itunes:summary";
+static NSString * const kElementContent     = @"enclosure";
+static NSString * const kElementImage       = @"itunes:image";
+static NSString * const kElementDuration    = @"itunes:duration";
+static NSString * const kElementPubDate     = @"pubDate";
+static NSString * const kElementID          = @"guid";
+static NSString * const kElementSourceType  = @"sourceType";
 
-@interface Object : NSObject
+
+@interface ItemObject : NSObject
 @property (strong, nonatomic) NSString  *guiD;
 @property (strong, nonatomic) NSString  *title;
 @property (strong, nonatomic) NSString  *author;
@@ -26,5 +37,7 @@ typedef enum {
 @property (strong, nonatomic) NSString  *duration;
 @property (strong, nonatomic) NSString  *publicationDate;
 @property (assign, nonatomic) SourceType sourceType;
+
+- (instancetype)initWithDictionary:(NSDictionary*)objects andSourceType:(SourceType)sourceType;
 
 @end

@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "Parser.h"
+#import "ViewController.h"
+#import "DetailViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -18,10 +20,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
-    NSURL* url = [NSURL URLWithString:@"https://rss.simplecast.com/podcasts/4669/rss"];
-    Parser* pars = [[Parser alloc] initWithURL:url resourceType:0];
-
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    ViewController *vc = [[ViewController alloc] init];
+    vc.view.backgroundColor = [UIColor redColor];
+    
+    DetailViewController *dvc = [[DetailViewController alloc] init];
+    dvc.view.backgroundColor = [UIColor grayColor];
+    
+    UISplitViewController* splitViewController = [[UISplitViewController alloc] init];
+    [splitViewController setViewControllers:@[vc,dvc]];
+    
+    [self.window setRootViewController:splitViewController];
+    [self.window makeKeyAndVisible];
 
     return YES;
 }
