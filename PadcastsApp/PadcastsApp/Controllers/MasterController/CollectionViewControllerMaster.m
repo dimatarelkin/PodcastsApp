@@ -31,7 +31,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
    
-    
+    self.collectionView.allowsSelection = YES;
     self.dataSource = [NSMutableArray array];
     
     // Register cell classes
@@ -64,7 +64,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionVewCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
-    cell.backgroundColor = UIColor.redColor;
     [cell setDataToLabelsFrom:item];
     
     return cell;
@@ -91,29 +90,31 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:<#(UICollectionViewScrollPosition)#>];
+    NSLog(@"itssem at %d was tapped", indexPath.row);
+}
 // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
 	return NO;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
+	return YES;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
+
 
 #pragma mark <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, CGRectGetHeight(collectionView.frame)/5 - 10);
-    return CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, 120);
+//    return CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, CGRectGetHeight(collectionView.frame)/5 - 10);
+    return CGSizeMake(CGRectGetWidth(collectionView.frame), 130);
 }
 
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     //    UIEdgeInsets insets = {top, left, bottom, right};
-    return UIEdgeInsetsMake(15, 5, 5, 5);
+    return UIEdgeInsetsMake(30, 0, 0, 0);
 }
 
 @end

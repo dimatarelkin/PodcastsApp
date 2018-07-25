@@ -8,8 +8,14 @@
 
 #import "CollectionVewCell.h"
 
-static NSString * const kMusicPlaceHolder = @"music_placeholder";
-static NSString * const kVideoPlaceHolder = @"video_placeholder";
+static NSString * const kMusicPlaceHolder = @"music_placeholder2";
+static NSString * const kVideoPlaceHolder = @"video_placeholder3";
+
+
+@interface CollectionVewCell()
+@property (assign, nonatomic) CGFloat multiplier;
+@end
+
 
 @implementation CollectionVewCell
 
@@ -17,19 +23,27 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setupCell];
         [self setupViews];
     }
     return self;
 }
 
+-(void)setupCell{
+    self.backgroundColor = UIColor.whiteColor;
+    self.layer.shadowColor = UIColor.lightGrayColor.CGColor;
+    self.layer.shadowOffset = CGSizeMake(0, 3);
+    self.layer.shadowOpacity = 0.4;
+}
 
 -(void)setupViews {
     self.title  = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.title setFont:[UIFont systemFontOfSize:16 weight:UIFontWeightBold]];
-    self.title.numberOfLines = 0;
+    self.title.numberOfLines = 3;
+    [self.title setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisVertical];
     
     self.author = [[UILabel alloc] initWithFrame:CGRectZero];
-    [self.author setFont:[UIFont systemFontOfSize:12 weight:UIFontWeightRegular]];
+    [self.author setFont:[UIFont systemFontOfSize:14 weight:UIFontWeightRegular]];
     
     self.date   = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.date setFont: [UIFont systemFontOfSize:12]];
@@ -37,13 +51,14 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     //left StackView
     self.duration = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.duration setFont:[UIFont systemFontOfSize:12]];
+    [self.duration setTextAlignment:NSTextAlignmentCenter];
+//    self.duration.textColor = UIColor.whiteColor;
+//    self.duration.backgroundColor = UIColor.blackColor;
     
     //imageView
     self.imageView = [[UIImageView alloc]init];
     [self.imageView  setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisVertical];
-    self.imageView.layer.contentsGravity = kCAGravityResizeAspect;
-//    [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
-//    [self.imageView setClipsToBounds:YES];
+    [self.imageView setClipsToBounds:YES];
     
     
     //setting socntrainst and stack
@@ -57,10 +72,10 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 
 -(void)setDataToLabelsFrom:(ItemObject*)item {
     self.title.text = item.title;
-    self.title.backgroundColor = UIColor.darkGrayColor;
-    self.author.text = item.author;
-    self.author.backgroundColor = UIColor.whiteColor;
     
+    
+    self.author.text = item.author;
+    [self.author setTextAlignment:NSTextAlignmentLeft];
     
     NSString *dateStr = item.publicationDate;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -70,14 +85,16 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     dateStr = [dateFormat stringFromDate:date];
     self.date.text = dateStr;
     self.date.textColor = [UIColor blackColor];
-    self.date.backgroundColor = UIColor.whiteColor;
+    [self.date setTextAlignment:NSTextAlignmentRight];
 
     
     self.duration.text = item.duration;
     if (item.sourceType == MP3SourceType) {
         [self.imageView setImage:[UIImage imageNamed:kMusicPlaceHolder]];
+        [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
     } else {
         [self.imageView setImage:[UIImage imageNamed:kVideoPlaceHolder]];
+        [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
     }
 }
 
@@ -95,9 +112,9 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 -(void)createInfoStackView {
     self.infoStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.title, self.author, self.date]];
     [self.infoStack setAxis:UILayoutConstraintAxisVertical];
-    self.infoStack.spacing = 5.f;
+    self.infoStack.spacing = 0;
     [self.infoStack setAlignment:UIStackViewAlignmentFill];
-    [self.infoStack setDistribution:UIStackViewDistributionFillEqually];
+    [self.infoStack setDistribution:UIStackViewDistributionFill];
     self.infoStack.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
@@ -108,7 +125,7 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
        [self.imageAndTypeStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10],
        [self.imageAndTypeStack.trailingAnchor constraintEqualToAnchor:self.infoStack.leadingAnchor constant: -20],
        
-       [self.imageAndTypeStack.widthAnchor constraintEqualToAnchor:self.infoStack.widthAnchor multiplier:0.3],
+       [self.imageAndTypeStack.widthAnchor constraintEqualToAnchor:self.infoStack.widthAnchor multiplier:0.5],
        [self.infoStack.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
        [self.infoStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:10],
        [self.infoStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10]
