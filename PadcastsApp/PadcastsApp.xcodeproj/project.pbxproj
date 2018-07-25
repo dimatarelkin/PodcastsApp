@@ -23,6 +23,7 @@
 		629A96EA210780B7004E809B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96E9210780B7004E809B /* DetailViewController.m */; };
 		62BEF4682108717D0047D450 /* CollectionViewControllerMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */; };
 		62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF46C2108721F0047D450 /* CollectionVewCell.m */; };
+		62BEF4702108B6E20047D450 /* SplitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF46F2108B6E20047D450 /* SplitController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,8 @@
 		62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewControllerMaster.m; sourceTree = "<group>"; };
 		62BEF46B2108721F0047D450 /* CollectionVewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionVewCell.h; sourceTree = "<group>"; };
 		62BEF46C2108721F0047D450 /* CollectionVewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionVewCell.m; sourceTree = "<group>"; };
+		62BEF46E2108B6E20047D450 /* SplitController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitController.h; sourceTree = "<group>"; };
+		62BEF46F2108B6E20047D450 /* SplitController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SplitController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +154,8 @@
 				624A28E72105E392004FF7BC /* ViewController.m */,
 				629A96E8210780B7004E809B /* DetailViewController.h */,
 				629A96E9210780B7004E809B /* DetailViewController.m */,
+				62BEF46E2108B6E20047D450 /* SplitController.h */,
+				62BEF46F2108B6E20047D450 /* SplitController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 				624A28E82105E392004FF7BC /* ViewController.m in Sources */,
 				624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */,
 				629A96E021073CCC004E809B /* ServiceManager.m in Sources */,
+				62BEF4702108B6E20047D450 /* SplitController.m in Sources */,
 				624A29292106111D004FF7BC /* ItemObject.m in Sources */,
 				624A28F62105E393004FF7BC /* main.m in Sources */,
 				624A28E52105E392004FF7BC /* AppDelegate.m in Sources */,

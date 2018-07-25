@@ -7,9 +7,11 @@
 //
 
 #import "CollectionViewControllerMaster.h"
+#import "CollectionVewCell.h"
+
 
 @interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
-
+@property (strong, nonatomic) ServiceManager* manager;
 @end
 
 
@@ -22,17 +24,26 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"Feed";
+    self.collectionView.backgroundColor = UIColor.whiteColor;
+    self.collectionView.alwaysBounceVertical = YES;
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    self.dataSource = [NSMutableArray array];
     
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    self.dataSource = [NSMutableArray array];
+    
+    NSURL* urlMP3 = [NSURL URLWithString:@"https://rss.simplecast.com/podcasts/4669/rss"];
+    NSURL* urlTED = [NSURL URLWithString:@"https://feeds.feedburner.com/tedtalks_video"];
+    self.manager = [[ServiceManager alloc] init];
+    self.manager.delegate = self;
+    [self.manager downloadAndParseFileFromURL:urlMP3 withType:0];
+    [self.manager downloadAndParseFileFromURL:urlTED withType:1];
     
 }
-
-
 
 
 
@@ -40,27 +51,28 @@ static NSString * const reuseIdentifier = @"Cell";
 
 //SECTION
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 //CELL
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
-    return 0;
+    return self.dataSource.count;
 }
 
 //CELL REUSE
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell
+    CollectionVewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
+    [cell  setDataToLabelsFrom:item];
     
     return cell;
 }
 
-
-
+-(void)downloadingWasFinished:(NSArray*)result {
+    [self.dataSource addObjectsFromArray:result];
+    [self.collectionView reloadData];
+    NSLog(@"count = %lu",(unsigned long)self.dataSource.count);
+}
 
 
 

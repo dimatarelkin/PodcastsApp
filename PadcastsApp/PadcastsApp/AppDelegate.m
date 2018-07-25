@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "DetailViewController.h"
+#import "CollectionViewControllerMaster.h"
+#import "SplitController.h"
 
 
 @interface AppDelegate ()
@@ -20,19 +22,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    
-//    ViewController *vc = [[ViewController alloc] init];
-//    vc.view.backgroundColor = [UIColor redColor];
-//    
-//    DetailViewController *dvc = [[DetailViewController alloc] init];
-//    dvc.view.backgroundColor = [UIColor grayColor];
-//    
-//    UISplitViewController* splitViewController = [[UISplitViewController alloc] init];
-//    [splitViewController setViewControllers:@[vc,dvc]];
-//    
-//    [self.window setRootViewController:splitViewController];
-//    [self.window makeKeyAndVisible];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
+    CollectionViewControllerMaster *master = [[CollectionViewControllerMaster alloc] initWithCollectionViewLayout:flow];
+    
+    DetailViewController *detail = [[DetailViewController alloc] init];
+    detail.view.backgroundColor = [UIColor grayColor];
+    
+    UINavigationController*nav =[[UINavigationController alloc]  initWithRootViewController:master];
+    
+    SplitController* splitViewController = [[SplitController alloc] init];
+    [splitViewController setViewControllers:@[nav,detail]];
+    
+
+    [self.window setRootViewController:splitViewController];
+    [self.window makeKeyAndVisible];
 
     return YES;
 }

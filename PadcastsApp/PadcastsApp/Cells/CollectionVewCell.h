@@ -20,7 +20,7 @@
 //left StackView
 @property (strong, nonatomic) UIStackView *imageAndTypeStack;
 @property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) UILabel *duration;
+@property (strong, nonatomic) UILabel     *duration;
 
 
 -(void)setDataToLabelsFrom:(ItemObject*)item;

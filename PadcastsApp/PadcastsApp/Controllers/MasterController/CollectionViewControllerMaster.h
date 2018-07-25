@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServiceManager.h"
 
-@interface CollectionViewControllerMaster : UICollectionViewController
+@interface CollectionViewControllerMaster : UICollectionViewController <ServiceDownloadDelegate>
 @property (strong, nonatomic) NSMutableArray *dataSource;
 @end

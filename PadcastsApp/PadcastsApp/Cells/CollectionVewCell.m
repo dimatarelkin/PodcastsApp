@@ -25,13 +25,24 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 
 -(void)setupViews {
     self.title  = [[UILabel alloc] initWithFrame:CGRectZero];
+    [self.title setFont:[UIFont systemFontOfSize:16 weight:UIFontWeightBold]];
+    
     self.author = [[UILabel alloc] initWithFrame:CGRectZero];
+    [self.title setFont:[UIFont systemFontOfSize:12 weight:UIFontWeightRegular]];
+    
     self.date   = [[UILabel alloc] initWithFrame:CGRectZero];
+    [self.date setFont: [UIFont systemFontOfSize:12]];
 
     //left StackView
     self.duration = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.imageView = [[UIImageView alloc]init];
+    [self.duration setFont:[UIFont systemFontOfSize:12]];
     
+    //imageView
+    self.imageView = [[UIImageView alloc]init];
+    [self.imageView  setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisVertical];
+    
+    
+    //setting socntrainst and stack
     [self createInfoStackView];
     [self createImageAndTypeStackView];
     
@@ -74,6 +85,7 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     [self.infoStack setAxis:UILayoutConstraintAxisVertical];
     self.infoStack.spacing = 5.f;
     [self.infoStack setAlignment:UIStackViewAlignmentFill];
+    [self.infoStack setDistribution:UIStackViewDistributionFillProportionally];
     
 }
 
