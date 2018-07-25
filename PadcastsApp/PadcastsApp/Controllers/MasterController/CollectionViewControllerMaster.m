@@ -12,6 +12,7 @@
 
 @interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) ServiceManager* manager;
+
 @end
 
 
@@ -29,12 +30,12 @@ static NSString * const reuseIdentifier = @"Cell";
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    
+   
     
     self.dataSource = [NSMutableArray array];
     
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [self.collectionView registerClass:[CollectionVewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     NSURL* urlMP3 = [NSURL URLWithString:@"https://rss.simplecast.com/podcasts/4669/rss"];
     NSURL* urlTED = [NSURL URLWithString:@"https://feeds.feedburner.com/tedtalks_video"];
@@ -61,9 +62,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 //CELL REUSE
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CollectionVewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    CollectionVewCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
-    [cell  setDataToLabelsFrom:item];
+    cell.backgroundColor = UIColor.redColor;
+    [cell setDataToLabelsFrom:item];
     
     return cell;
 }
@@ -104,13 +106,14 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, 80 - 10);
+//    CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, CGRectGetHeight(collectionView.frame)/5 - 10);
+    return CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, 120);
 }
 
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     //    UIEdgeInsets insets = {top, left, bottom, right};
-    return UIEdgeInsetsMake(10, 5, 5, 5);
+    return UIEdgeInsetsMake(15, 5, 5, 5);
 }
 
 @end

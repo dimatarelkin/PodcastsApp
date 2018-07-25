@@ -13,9 +13,9 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 
 @implementation CollectionVewCell
 
-- (instancetype)init
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super init];
+    self = [super initWithFrame:frame];
     if (self) {
         [self setupViews];
     }
@@ -26,9 +26,10 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 -(void)setupViews {
     self.title  = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.title setFont:[UIFont systemFontOfSize:16 weight:UIFontWeightBold]];
+    self.title.numberOfLines = 0;
     
     self.author = [[UILabel alloc] initWithFrame:CGRectZero];
-    [self.title setFont:[UIFont systemFontOfSize:12 weight:UIFontWeightRegular]];
+    [self.author setFont:[UIFont systemFontOfSize:12 weight:UIFontWeightRegular]];
     
     self.date   = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.date setFont: [UIFont systemFontOfSize:12]];
@@ -40,26 +41,38 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     //imageView
     self.imageView = [[UIImageView alloc]init];
     [self.imageView  setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisVertical];
+    self.imageView.layer.contentsGravity = kCAGravityResizeAspect;
+//    [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
+//    [self.imageView setClipsToBounds:YES];
     
     
     //setting socntrainst and stack
     [self createInfoStackView];
     [self createImageAndTypeStackView];
     
-    [self.contentView addSubview: self.infoStack];
-    [self.contentView addSubview:self. imageView];
+    [self addSubview: self.infoStack];
+    [self addSubview:self.imageAndTypeStack];
     [self setupConstraints];
 }
 
 -(void)setDataToLabelsFrom:(ItemObject*)item {
     self.title.text = item.title;
+    self.title.backgroundColor = UIColor.darkGrayColor;
     self.author.text = item.author;
+    self.author.backgroundColor = UIColor.whiteColor;
     
-    NSDateFormatter * dateFormatter= [[NSDateFormatter alloc] init];
-    NSDate* date = [dateFormatter dateFromString:item.publicationDate];
-    [dateFormatter setDateFormat:@"dd MMM yyyy"];
-    self.date.text = [dateFormatter stringFromDate:date];
+    
+    NSString *dateStr = item.publicationDate;
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
+    NSDate *date = [dateFormat dateFromString:dateStr];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    dateStr = [dateFormat stringFromDate:date];
+    self.date.text = dateStr;
+    self.date.textColor = [UIColor blackColor];
+    self.date.backgroundColor = UIColor.whiteColor;
 
+    
     self.duration.text = item.duration;
     if (item.sourceType == MP3SourceType) {
         [self.imageView setImage:[UIImage imageNamed:kMusicPlaceHolder]];
@@ -71,7 +84,6 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 
 -(void)createImageAndTypeStackView {
     self.imageAndTypeStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.imageView,self.duration]];
-    
     [self.imageAndTypeStack setAxis:UILayoutConstraintAxisVertical];
     self.imageAndTypeStack.spacing = 5.f;
     [self.imageAndTypeStack setAlignment:UIStackViewAlignmentFill];
@@ -85,21 +97,21 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     [self.infoStack setAxis:UILayoutConstraintAxisVertical];
     self.infoStack.spacing = 5.f;
     [self.infoStack setAlignment:UIStackViewAlignmentFill];
-    [self.infoStack setDistribution:UIStackViewDistributionFillProportionally];
-    
+    [self.infoStack setDistribution:UIStackViewDistributionFillEqually];
+    self.infoStack.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 -(void)setupConstraints {
     [NSLayoutConstraint activateConstraints:
-     @[[self.imageAndTypeStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:10],
-       [self.imageAndTypeStack.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:10],
-       [self.imageAndTypeStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:10],
-       [self.imageAndTypeStack.trailingAnchor constraintEqualToAnchor:self.infoStack.leadingAnchor constant:20],
+     @[[self.imageAndTypeStack.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
+       [self.imageAndTypeStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:10],
+       [self.imageAndTypeStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10],
+       [self.imageAndTypeStack.trailingAnchor constraintEqualToAnchor:self.infoStack.leadingAnchor constant: -20],
        
-       [self.imageAndTypeStack.widthAnchor constraintEqualToAnchor:self.infoStack.widthAnchor multiplier:3],
-       [self.infoStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:10],
-       [self.infoStack.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:10],
-       [self.infoStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:10]
+       [self.imageAndTypeStack.widthAnchor constraintEqualToAnchor:self.infoStack.widthAnchor multiplier:0.3],
+       [self.infoStack.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
+       [self.infoStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:10],
+       [self.infoStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10]
        ]];
 }
 

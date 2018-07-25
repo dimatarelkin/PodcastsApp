@@ -59,7 +59,7 @@
                                                 <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Owd-zv-TYf">
                                                     <rect key="frame" x="10" y="10" width="84" height="119.5"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="music_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="lPO-K3-le1">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="music_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="lPO-K3-le1">
                                                             <rect key="frame" x="0.0" y="0.0" width="84" height="100"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EtB-gb-ExL">
