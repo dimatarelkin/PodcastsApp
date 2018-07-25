@@ -12,6 +12,7 @@
 
 @interface ViewController ()
 @property (strong, nonatomic)NSMutableArray* dataSource;
+@property (strong, nonatomic) ServiceManager* manager;
 @end
 
 
@@ -24,15 +25,16 @@ static NSString * const kCellIdentifier = @"customCellIdentifier";
     // Do any additional setup after loading the view, typically from a nib.
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
     self.dataSource = [NSMutableArray array];
     
+   
     NSURL* urlMP3 = [NSURL URLWithString:@"https://rss.simplecast.com/podcasts/4669/rss"];
-    NSURL* urlTED = [NSURL URLWithString:@"https://feeds.feedburner.com/tedtalks_video"];
-    Parser* mp3 = [[Parser alloc] initWithURL:urlMP3 resourceType:0];
-    mp3.delegate = self;
-    Parser* ted = [[Parser alloc] initWithURL:urlTED resourceType:1];
-    ted.delegate = self;
+    NSURL* urlTED = [NSURL URLWithString:@"https://feeds.feedburner.com/tedtalks_video"];    
+    self.manager = [[ServiceManager alloc] init];
+    self.manager.delegate = self;
+    [self.manager downloadAndParseFileFromURL:urlMP3 withType:0];
+    [self.manager downloadAndParseFileFromURL:urlTED withType:1];
+    
 }
 
 
@@ -44,11 +46,20 @@ static NSString * const kCellIdentifier = @"customCellIdentifier";
     CustomCellTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     
     ItemObject *item = [[ItemObject alloc] init];
-    item.title = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] title];
-    item.author = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] author];
+    item.title           = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] title];
+    item.author          = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] author];
+    item.sourceType      = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row]sourceType];
+    item.guiD            = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] guiD];
+    item.descrip         = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] descrip];
+    item.content.webLink = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] content].webLink;
+    item.image.webLink   = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] image].webLink;
+    item.duration        = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] duration];
+    item.publicationDate = [(ItemObject*)[self.dataSource objectAtIndex:indexPath.row] publicationDate];
+    
     
     cell.title.text = item.title;
     cell.author.text = item.author;
+    cell.type.text = item.sourceType == MP3SourceType ? @"MP3" : @"TED";
     return cell;
 }
 
@@ -56,54 +67,14 @@ static NSString * const kCellIdentifier = @"customCellIdentifier";
     return self.dataSource.count;
 }
 
--(void)downloadingWasFinishedWithResult:(NSArray*)result {
+-(void)downloadingWasFinished:(NSArray*)result {
     [self.dataSource addObjectsFromArray:result];
     [self.tableView reloadData];
     NSLog(@"count = %lu",(unsigned long)self.dataSource.count);
 }
-//
-//- (void)encodeWithCoder:(nonnull NSCoder *)aCoder { 
-//    <#code#>
-//}
-//
-//- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection { 
-//    <#code#>
-//}
-//
-//- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container { 
-//    <#code#>
-//}
-//
-//- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize { 
-//    <#code#>
-//}
-//
-//- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container { 
-//    <#code#>
-//}
-//
-//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator { 
-//    <#code#>
-//}
-//
-//- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator { 
-//    <#code#>
-//}
-//
-//- (void)didUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context withAnimationCoordinator:(nonnull UIFocusAnimationCoordinator *)coordinator { 
-//    <#code#>
-//}
-//
-//- (void)setNeedsFocusUpdate { 
-//    <#code#>
-//}
-//
-//- (BOOL)shouldUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context { 
-//    <#code#>
-//}
-//
-//- (void)updateFocusIfNeeded { 
-//    <#code#>
-//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 140;
+}
 
 @end

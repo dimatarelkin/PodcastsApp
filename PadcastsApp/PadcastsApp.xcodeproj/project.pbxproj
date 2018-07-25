@@ -21,6 +21,8 @@
 		629A96E021073CCC004E809B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96DE21073CCC004E809B /* ServiceManager.m */; };
 		629A96E321075344004E809B /* CustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96E221075344004E809B /* CustomCellTableViewCell.m */; };
 		629A96EA210780B7004E809B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96E9210780B7004E809B /* DetailViewController.m */; };
+		62BEF4682108717D0047D450 /* CollectionViewControllerMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */; };
+		62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF46C2108721F0047D450 /* CollectionVewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,10 @@
 		629A96E221075344004E809B /* CustomCellTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCellTableViewCell.m; sourceTree = "<group>"; };
 		629A96E8210780B7004E809B /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		629A96E9210780B7004E809B /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		62BEF4662108717D0047D450 /* CollectionViewControllerMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewControllerMaster.h; sourceTree = "<group>"; };
+		62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewControllerMaster.m; sourceTree = "<group>"; };
+		62BEF46B2108721F0047D450 /* CollectionVewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionVewCell.h; sourceTree = "<group>"; };
+		62BEF46C2108721F0047D450 /* CollectionVewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionVewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +90,7 @@
 				624A28E32105E392004FF7BC /* AppDelegate.h */,
 				624A28E42105E392004FF7BC /* AppDelegate.m */,
 				629A96E421077F47004E809B /* Controllers */,
-				629A96E121075344004E809B /* CustomCellTableViewCell.h */,
-				629A96E221075344004E809B /* CustomCellTableViewCell.m */,
+				62BEF46A210871B30047D450 /* Cells */,
 				624A290521060AA7004FF7BC /* Models */,
 				624A28E92105E392004FF7BC /* Main.storyboard */,
 				624A28EF2105E393004FF7BC /* Assets.xcassets */,
@@ -141,12 +146,33 @@
 		629A96E421077F47004E809B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				62BEF469210871850047D450 /* MasterController */,
 				624A28E62105E392004FF7BC /* ViewController.h */,
 				624A28E72105E392004FF7BC /* ViewController.m */,
 				629A96E8210780B7004E809B /* DetailViewController.h */,
 				629A96E9210780B7004E809B /* DetailViewController.m */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		62BEF469210871850047D450 /* MasterController */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF4662108717D0047D450 /* CollectionViewControllerMaster.h */,
+				62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */,
+			);
+			path = MasterController;
+			sourceTree = "<group>";
+		};
+		62BEF46A210871B30047D450 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF46B2108721F0047D450 /* CollectionVewCell.h */,
+				62BEF46C2108721F0047D450 /* CollectionVewCell.m */,
+				629A96E121075344004E809B /* CustomCellTableViewCell.h */,
+				629A96E221075344004E809B /* CustomCellTableViewCell.m */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +245,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */,
+				62BEF4682108717D0047D450 /* CollectionViewControllerMaster.m in Sources */,
 				624A293521061699004FF7BC /* Parser.m in Sources */,
 				624A28E82105E392004FF7BC /* ViewController.m in Sources */,
 				624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */,

@@ -10,6 +10,26 @@
 #import "Parser.h"
 #import "ItemObject.h"
 
-@interface ServiceManager : NSObject
--(void)downloadAndParseFileFromURL:(NSURL*)url withType:(SourceType)soureceType;
+
+
+@protocol ServiceDownloadDelegate <NSObject>
+-(void)downloadingWasFinished:(NSArray*)result;
+@end
+
+
+@interface ServiceManager : NSObject <ParserDelegate>
+
+
+
+//parser
+-(void)downloadAndParseFileFromURL:(NSURL*)url withType:(SourceType)sourceType;
+@property (weak, nonatomic) id<ServiceDownloadDelegate> delegate;
+
+//coreData offline mode
+-(void)saveDataItemsIntoCoreData:(NSArray<ItemObject*>*)items;
+-(NSArray<ItemObject*>*)fetchDataFromCoreData;
+
+//sandBox
+-(void)saveContentIntoSandBox:(ItemObject*)item;
+-(ItemObject*)fetchContentfromSandBox:(NSURL*)url;
 @end

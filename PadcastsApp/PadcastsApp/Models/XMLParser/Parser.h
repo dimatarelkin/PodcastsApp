@@ -21,7 +21,7 @@
 
 @property (strong, nonatomic) NSMutableArray* arrayOfObjects;
 @property (strong, nonatomic) NSArray *tags;
-- (instancetype)initWithURL:(NSURL*)url resourceType:(SourceType)sourceType;
+-(void)beginDownloadingWithURL:(NSURL*)url andSourceType:(SourceType)sourceType;
 @end
 
 

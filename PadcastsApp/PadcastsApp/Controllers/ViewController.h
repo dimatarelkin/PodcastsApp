@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServiceManager.h"
 #import "Parser.h"
 
  
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ParserDelegate>
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ServiceDownloadDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
-
 
 @end
 

@@ -23,18 +23,15 @@
 
 @implementation Parser
 
-- (instancetype)initWithURL:(NSURL*)url resourceType:(SourceType)sourceType {
-    self = [super init];
-    if (self) {
-        self.currentSourceType = sourceType;
-        self.tags = @[kElementItem,    kElementTitle,
-                      kElementAuthor,  kElementDescription,
-                      kElementDuration,kElementPubDate, kElementID];
-        [self downloadDataFromURL:url];
-    }
-    return self;
-}
 
+
+-(void)beginDownloadingWithURL:(NSURL*)url andSourceType:(SourceType)sourceType {
+    self.currentSourceType = sourceType;
+    self.tags = @[kElementItem,    kElementTitle,
+                  kElementAuthor,  kElementDescription,
+                  kElementDuration,kElementPubDate, kElementID];
+    [self downloadDataFromURL:url];
+}
 
 
 - (void)downloadDataFromURL:(NSURL *)url {
@@ -54,7 +51,7 @@
 
 
 
-#pragma mark NSXMLParserDelegate
+#pragma mark - NSXMLParserDelegate
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
     self.arrayOfObjects = [[NSMutableArray alloc] init]; //array of dicts
 }
@@ -68,11 +65,9 @@
     
     //inform the delegate
     [self.delegate downloadingWasFinishedWithResult:data];
+    NSLog(@"%@", [self.delegate  description]);
     
 }
-
-
-
 
 
 
@@ -131,12 +126,12 @@
         range = [resultString rangeOfString:@"\n      "];
         [resultString deleteCharactersInRange:range];
     }
-    
+
     if ([resultString containsString:@"  "]) {
         range = [resultString rangeOfString:@"  "];
         [resultString deleteCharactersInRange:range];
     }
-    
+
     if ([resultString containsString:@"\n"]) {
         range = [resultString rangeOfString:@"\n"];
         [resultString deleteCharactersInRange:range];
