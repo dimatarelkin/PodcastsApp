@@ -70,6 +70,8 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
 
 - (void)saveItemIntoCoreData:(ItemObject *)item {
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kItemEntity inManagedObjectContext:self.persistentContainer.viewContext];
+    NSEntityDescription *imageEntityDiscription = [NSEntityDescription entityForName:kImageEntity inManagedObjectContext:self.persistentContainer.viewContext];
+    NSEntityDescription *contentEntityDiscription = [NSEntityDescription entityForName:kContentEntity inManagedObjectContext:self.persistentContainer.viewContext];
     
     if (!entityDescription) {
         NSLog(@"could not find entity description");
@@ -77,16 +79,25 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     }
     
     ItemManagedObject* manageObject = [[ItemManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
+    ImageManagedObject *imageManagedObject = [[ImageManagedObject alloc] initWithEntity:imageEntityDiscription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
+    ContentManagedObject *contentManagedObject = [[ContentManagedObject alloc] initWithEntity:contentEntityDiscription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
+    
     manageObject.title  = item.title;
     manageObject.author = item.author;
     manageObject.details = item.details;
     manageObject.duration = item.duration;
     manageObject.guid = item.guiD;
     manageObject.sourceType = [NSNumber numberWithInteger: item.sourceType];
-    manageObject.image.webLink = item.image.webLink;
-    manageObject.image.localLink = item.image.localLink;
-    manageObject.content.webLink = item.content.webLink;
-    manageObject.content.localLink = item.content.localLink;
+    
+    [manageObject setImage:imageManagedObject];
+    imageManagedObject.localLink = item.image.localLink;
+    imageManagedObject.webLink = item.image.webLink;
+    
+    [manageObject setContent: contentManagedObject];
+    contentManagedObject.localLink = item.content.localLink;
+    contentManagedObject.webLink = item.content.webLink;
+    
+
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
