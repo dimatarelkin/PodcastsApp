@@ -7,10 +7,13 @@
 //
 
 #import "CoreDataManager.h"
-#import "ItemManagedObject.h"
-#import "ImageManagedObject.h"
-#import "ContentManagedObject.h"
+#import "ItemManagedObject+CoreDataClass.h"
+#import "ImageManagedObject+CoreDataClass.h"
+#import "ContentManagedObject+CoreDataClass.h"
 
+static NSString * const kItemEntity = @"ItemManagedObject";
+static NSString * const kImageEntity = @"ImageManagedObject";
+static NSString * const kContentEntity = @"ContentManagedObject";
 
 @interface CoreDataManager ()
 - (void)saveContext;
@@ -87,7 +90,8 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     manageObject.details = item.details;
     manageObject.duration = item.duration;
     manageObject.guid = item.guiD;
-    manageObject.sourceType = [NSNumber numberWithInteger: item.sourceType];
+    manageObject.sourceType = item.sourceType;
+    manageObject.pubDate = [self createDateFromString:item.publicationDate];
     
     [manageObject setImage:imageManagedObject];
     imageManagedObject.localLink = item.image.localLink;
@@ -97,17 +101,19 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     contentManagedObject.localLink = item.content.localLink;
     contentManagedObject.webLink = item.content.webLink;
     
-
     
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
-    NSDate *date = [dateFormat dateFromString:item.publicationDate];
-    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
-    manageObject.pubDate = date;
-    
+    NSLog(@" local content = %@, web = %@",contentManagedObject.localLink, contentManagedObject.webLink);
+    NSLog(@" image content = %@, web = %@",imageManagedObject.localLink, imageManagedObject.webLink);
     NSLog(@"title = %@",[manageObject description]);
     
     [self saveContext];
+}
+
+-(NSDate*)createDateFromString:(NSString*)string {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    NSDate *date = [dateFormat dateFromString:string];
+    return date;
 }
 
 //- (void)deleteItemFromCoredata:(ItemObject *)item {
