@@ -52,8 +52,7 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
     self.duration = [[UILabel alloc] initWithFrame:CGRectZero];
     [self.duration setFont:[UIFont systemFontOfSize:12]];
     [self.duration setTextAlignment:NSTextAlignmentCenter];
-//    self.duration.textColor = UIColor.whiteColor;
-//    self.duration.backgroundColor = UIColor.blackColor;
+
     
     //imageView
     self.imageView = [[UIImageView alloc]init];
@@ -70,23 +69,13 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
     [self setupConstraints];
 }
 
+
+
 -(void)setDataToLabelsFrom:(ItemObject*)item {
     self.title.text = item.title;
-    
-    
     self.author.text = item.author;
     [self.author setTextAlignment:NSTextAlignmentLeft];
-    
-    NSString *dateStr = item.publicationDate;
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
-    NSDate *date = [dateFormat dateFromString:dateStr];
-    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
-    dateStr = [dateFormat stringFromDate:date];
-    self.date.text = dateStr;
-    self.date.textColor = [UIColor blackColor];
-    [self.date setTextAlignment:NSTextAlignmentRight];
-
+    [self setDateLabelWithDate:item.publicationDate];
     
     self.duration.text = item.duration;
     if (item.sourceType == MP3SourceType) {
@@ -96,6 +85,18 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
         [self.imageView setImage:[UIImage imageNamed:kVideoPlaceHolder]];
         [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
     }
+}
+
+
+-(void)setDateLabelWithDate:(NSString*)dateString {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
+    NSDate *date = [dateFormat dateFromString:dateString];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    dateString = [dateFormat stringFromDate:date];
+    self.date.text = dateString;
+    self.date.textColor = [UIColor blackColor];
+    [self.date setTextAlignment:NSTextAlignmentRight];
 }
 
 
@@ -119,16 +120,17 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 }
 
 -(void)setupConstraints {
+    CGFloat margin = 10;
     [NSLayoutConstraint activateConstraints:
-     @[[self.imageAndTypeStack.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
-       [self.imageAndTypeStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:10],
-       [self.imageAndTypeStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10],
-       [self.imageAndTypeStack.trailingAnchor constraintEqualToAnchor:self.infoStack.leadingAnchor constant: -20],
+     @[[self.imageAndTypeStack.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:margin],
+       [self.imageAndTypeStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:margin],
+       [self.imageAndTypeStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-margin],
+       [self.imageAndTypeStack.trailingAnchor constraintEqualToAnchor:self.infoStack.leadingAnchor constant: -margin],
        
        [self.imageAndTypeStack.widthAnchor constraintEqualToAnchor:self.infoStack.widthAnchor multiplier:0.5],
-       [self.infoStack.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
-       [self.infoStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:10],
-       [self.infoStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10]
+       [self.infoStack.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-margin],
+       [self.infoStack.topAnchor constraintEqualToAnchor:self.topAnchor constant:margin],
+       [self.infoStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-margin]
        ]];
 }
 

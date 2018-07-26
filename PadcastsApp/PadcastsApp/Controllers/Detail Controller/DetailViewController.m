@@ -8,15 +8,33 @@
 
 #import "DetailViewController.h"
 
+
 @interface DetailViewController ()
 
 @end
 
 @implementation DetailViewController
 
+- (instancetype)initWithItem:(ItemObject*)item {
+    self = [super init];
+    if (self) {
+        [self setupViews];
+        [self setupItemInfoToViews:item];
+    }
+    return self;
+}
+
+
+-(void)setupViews {
+    
+}
+
+-(void)setupItemInfoToViews:(ItemObject*)item {
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 @end

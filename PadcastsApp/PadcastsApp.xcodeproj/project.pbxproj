@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		624A28E52105E392004FF7BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A28E42105E392004FF7BC /* AppDelegate.m */; };
-		624A28E82105E392004FF7BC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A28E72105E392004FF7BC /* ViewController.m */; };
 		624A28EB2105E392004FF7BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 624A28E92105E392004FF7BC /* Main.storyboard */; };
 		624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 624A28EC2105E392004FF7BC /* PadcastsApp.xcdatamodeld */; };
 		624A28F02105E393004FF7BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 624A28EF2105E393004FF7BC /* Assets.xcassets */; };
@@ -19,19 +18,20 @@
 		624A29292106111D004FF7BC /* ItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A29282106111D004FF7BC /* ItemObject.m */; };
 		624A293521061699004FF7BC /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A293421061699004FF7BC /* Parser.m */; };
 		629A96E021073CCC004E809B /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96DE21073CCC004E809B /* ServiceManager.m */; };
-		629A96E321075344004E809B /* CustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96E221075344004E809B /* CustomCellTableViewCell.m */; };
 		629A96EA210780B7004E809B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 629A96E9210780B7004E809B /* DetailViewController.m */; };
 		62BEF4682108717D0047D450 /* CollectionViewControllerMaster.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */; };
 		62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF46C2108721F0047D450 /* CollectionVewCell.m */; };
 		62BEF4702108B6E20047D450 /* SplitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF46F2108B6E20047D450 /* SplitController.m */; };
+		62BEF47B2109C9240047D450 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF47A2109C9240047D450 /* CoreDataManager.m */; };
+		62BEF47E2109CEB60047D450 /* ItemManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF47D2109CEB60047D450 /* ItemManagedObject.m */; };
+		62BEF4822109CF1B0047D450 /* ImageManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4812109CF1B0047D450 /* ImageManagedObject.m */; };
+		62BEF4852109CF3F0047D450 /* ContentManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4842109CF3F0047D450 /* ContentManagedObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		624A28E02105E392004FF7BC /* PadcastsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PadcastsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		624A28E32105E392004FF7BC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		624A28E42105E392004FF7BC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		624A28E62105E392004FF7BC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		624A28E72105E392004FF7BC /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		624A28EA2105E392004FF7BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		624A28ED2105E392004FF7BC /* PadcastsApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PadcastsApp.xcdatamodel; sourceTree = "<group>"; };
 		624A28EF2105E393004FF7BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -48,8 +48,6 @@
 		624A293421061699004FF7BC /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
 		629A96DE21073CCC004E809B /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceManager.m; sourceTree = "<group>"; };
 		629A96DF21073CCC004E809B /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceManager.h; sourceTree = "<group>"; };
-		629A96E121075344004E809B /* CustomCellTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCellTableViewCell.h; sourceTree = "<group>"; };
-		629A96E221075344004E809B /* CustomCellTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCellTableViewCell.m; sourceTree = "<group>"; };
 		629A96E8210780B7004E809B /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		629A96E9210780B7004E809B /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		62BEF4662108717D0047D450 /* CollectionViewControllerMaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewControllerMaster.h; sourceTree = "<group>"; };
@@ -58,6 +56,14 @@
 		62BEF46C2108721F0047D450 /* CollectionVewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionVewCell.m; sourceTree = "<group>"; };
 		62BEF46E2108B6E20047D450 /* SplitController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitController.h; sourceTree = "<group>"; };
 		62BEF46F2108B6E20047D450 /* SplitController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SplitController.m; sourceTree = "<group>"; };
+		62BEF4792109C9230047D450 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
+		62BEF47A2109C9240047D450 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
+		62BEF47C2109CEB60047D450 /* ItemManagedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemManagedObject.h; sourceTree = "<group>"; };
+		62BEF47D2109CEB60047D450 /* ItemManagedObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemManagedObject.m; sourceTree = "<group>"; };
+		62BEF4802109CF1B0047D450 /* ImageManagedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageManagedObject.h; sourceTree = "<group>"; };
+		62BEF4812109CF1B0047D450 /* ImageManagedObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageManagedObject.m; sourceTree = "<group>"; };
+		62BEF4832109CF3F0047D450 /* ContentManagedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentManagedObject.h; sourceTree = "<group>"; };
+		62BEF4842109CF3F0047D450 /* ContentManagedObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContentManagedObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				629A96DD21073CA2004E809B /* ServiceManager */,
-				624A293221061667004FF7BC /* XMLParser */,
 				624A292A2106138D004FF7BC /* Prototypes */,
 			);
 			path = Models;
@@ -124,6 +129,7 @@
 				624A292221060F4C004FF7BC /* Content.m */,
 				624A292421060F5A004FF7BC /* Image.h */,
 				624A292521060F5A004FF7BC /* Image.m */,
+				62BEF47F2109CEC80047D450 /* ManagedObjects */,
 			);
 			path = Prototypes;
 			sourceTree = "<group>";
@@ -142,6 +148,8 @@
 			children = (
 				629A96DF21073CCC004E809B /* ServiceManager.h */,
 				629A96DE21073CCC004E809B /* ServiceManager.m */,
+				62BEF4762109C8A20047D450 /* CoreDataManager */,
+				624A293221061667004FF7BC /* XMLParser */,
 			);
 			path = ServiceManager;
 			sourceTree = "<group>";
@@ -150,12 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				62BEF469210871850047D450 /* MasterController */,
-				624A28E62105E392004FF7BC /* ViewController.h */,
-				624A28E72105E392004FF7BC /* ViewController.m */,
-				629A96E8210780B7004E809B /* DetailViewController.h */,
-				629A96E9210780B7004E809B /* DetailViewController.m */,
-				62BEF46E2108B6E20047D450 /* SplitController.h */,
-				62BEF46F2108B6E20047D450 /* SplitController.m */,
+				62BEF4712109C4510047D450 /* Detail Controller */,
+				62BEF4722109C4650047D450 /* Split Controller */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -174,10 +178,48 @@
 			children = (
 				62BEF46B2108721F0047D450 /* CollectionVewCell.h */,
 				62BEF46C2108721F0047D450 /* CollectionVewCell.m */,
-				629A96E121075344004E809B /* CustomCellTableViewCell.h */,
-				629A96E221075344004E809B /* CustomCellTableViewCell.m */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		62BEF4712109C4510047D450 /* Detail Controller */ = {
+			isa = PBXGroup;
+			children = (
+				629A96E8210780B7004E809B /* DetailViewController.h */,
+				629A96E9210780B7004E809B /* DetailViewController.m */,
+			);
+			path = "Detail Controller";
+			sourceTree = "<group>";
+		};
+		62BEF4722109C4650047D450 /* Split Controller */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF46E2108B6E20047D450 /* SplitController.h */,
+				62BEF46F2108B6E20047D450 /* SplitController.m */,
+			);
+			path = "Split Controller";
+			sourceTree = "<group>";
+		};
+		62BEF4762109C8A20047D450 /* CoreDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF4792109C9230047D450 /* CoreDataManager.h */,
+				62BEF47A2109C9240047D450 /* CoreDataManager.m */,
+			);
+			path = CoreDataManager;
+			sourceTree = "<group>";
+		};
+		62BEF47F2109CEC80047D450 /* ManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF47C2109CEB60047D450 /* ItemManagedObject.h */,
+				62BEF47D2109CEB60047D450 /* ItemManagedObject.m */,
+				62BEF4802109CF1B0047D450 /* ImageManagedObject.h */,
+				62BEF4812109CF1B0047D450 /* ImageManagedObject.m */,
+				62BEF4832109CF3F0047D450 /* ContentManagedObject.h */,
+				62BEF4842109CF3F0047D450 /* ContentManagedObject.m */,
+			);
+			path = ManagedObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,10 +292,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62BEF4852109CF3F0047D450 /* ContentManagedObject.m in Sources */,
+				62BEF4822109CF1B0047D450 /* ImageManagedObject.m in Sources */,
 				62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */,
+				62BEF47E2109CEB60047D450 /* ItemManagedObject.m in Sources */,
+				62BEF47B2109C9240047D450 /* CoreDataManager.m in Sources */,
 				62BEF4682108717D0047D450 /* CollectionViewControllerMaster.m in Sources */,
 				624A293521061699004FF7BC /* Parser.m in Sources */,
-				624A28E82105E392004FF7BC /* ViewController.m in Sources */,
 				624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */,
 				629A96E021073CCC004E809B /* ServiceManager.m in Sources */,
 				62BEF4702108B6E20047D450 /* SplitController.m in Sources */,
@@ -262,7 +307,6 @@
 				624A28E52105E392004FF7BC /* AppDelegate.m in Sources */,
 				629A96EA210780B7004E809B /* DetailViewController.m in Sources */,
 				624A292621060F5A004FF7BC /* Image.m in Sources */,
-				629A96E321075344004E809B /* CustomCellTableViewCell.m in Sources */,
 				624A292321060F4C004FF7BC /* Content.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

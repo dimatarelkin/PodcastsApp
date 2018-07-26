@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
 #import "DetailViewController.h"
 #import "CollectionViewControllerMaster.h"
 #import "SplitController.h"
@@ -28,9 +27,10 @@
     CollectionViewControllerMaster *master = [[CollectionViewControllerMaster alloc] initWithCollectionViewLayout:flow];
     
     DetailViewController *detail = [[DetailViewController alloc] init];
-    detail.view.backgroundColor = [UIColor grayColor];
+    detail.view.backgroundColor = [UIColor redColor];
     
     UINavigationController*nav =[[UINavigationController alloc]  initWithRootViewController:master];
+
     
     SplitController* splitViewController = [[SplitController alloc] init];
     [splitViewController setViewControllers:@[nav,detail]];

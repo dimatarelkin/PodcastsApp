@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ItemObject.h"
 
 @interface DetailViewController : UIViewController
-
+- (instancetype)initWithItem:(ItemObject*)item;
 @end

@@ -8,7 +8,7 @@
 
 #import "CollectionViewControllerMaster.h"
 #import "CollectionVewCell.h"
-
+#import "DetailViewController.h"
 
 @interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) ServiceManager* manager;
@@ -22,10 +22,15 @@
 @implementation CollectionViewControllerMaster
 
 static NSString * const reuseIdentifier = @"Cell";
+static NSString * const kTedURL = @"https://feeds.feedburner.com/tedtalks_video";
+static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Feed";
+    self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
+    self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
+    
     self.collectionView.backgroundColor = UIColor.whiteColor;
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.delegate = self;
@@ -37,12 +42,12 @@ static NSString * const reuseIdentifier = @"Cell";
     // Register cell classes
     [self.collectionView registerClass:[CollectionVewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
-    NSURL* urlMP3 = [NSURL URLWithString:@"https://rss.simplecast.com/podcasts/4669/rss"];
-    NSURL* urlTED = [NSURL URLWithString:@"https://feeds.feedburner.com/tedtalks_video"];
+    NSURL* urlMP3 = [NSURL URLWithString:kMP3URL];
+    NSURL* urlTED = [NSURL URLWithString:kTedURL];
     self.manager = [[ServiceManager alloc] init];
     self.manager.delegate = self;
-    [self.manager downloadAndParseFileFromURL:urlMP3 withType:0];
-    [self.manager downloadAndParseFileFromURL:urlTED withType:1];
+    [self.manager downloadAndParseFileFromURL:urlMP3 withType:MP3SourceType];
+    [self.manager downloadAndParseFileFromURL:urlTED withType:TEDSourceType];
     
 }
 
@@ -91,12 +96,18 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:<#(UICollectionViewScrollPosition)#>];
-    NSLog(@"itssem at %d was tapped", indexPath.row);
+    [self.collectionView
+     selectItemAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]
+     animated:YES
+     scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+    ItemObject *item = [self.dataSource objectAtIndex:indexPath.row];
+    DetailViewController *detail = [[DetailViewController alloc] initWithItem:item];
+    NSLog(@"item at %ld was tapped", (long)indexPath.row);
 }
+
 // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+	return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
@@ -107,14 +118,16 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return CGSizeMake(CGRectGetWidth(collectionView.frame) - 15, CGRectGetHeight(collectionView.frame)/5 - 10);
+
     return CGSizeMake(CGRectGetWidth(collectionView.frame), 130);
 }
 
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    //    UIEdgeInsets insets = {top, left, bottom, right};
-    return UIEdgeInsetsMake(30, 0, 0, 0);
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 10;
 }
+
+
 
 @end
