@@ -87,8 +87,14 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     manageObject.image.localLink = item.image.localLink;
     manageObject.content.webLink = item.content.webLink;
     manageObject.content.localLink = item.content.localLink;
-    manageObject.pubDate = [[NSDateFormatter alloc] dateFromString:item.publicationDate];
-    NSLog(@"%@",[manageObject description]);
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
+    NSDate *date = [dateFormat dateFromString:item.publicationDate];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    manageObject.pubDate = date;
+    
+    NSLog(@"title = %@",[manageObject description]);
     
     [self saveContext];
 }

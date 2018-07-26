@@ -154,58 +154,20 @@
 
 
 
-//relations
-//image
-- (ImageManagedObject *)image {
-    ImageManagedObject* image = nil;
-    [self willAccessValueForKey:kImageEntity];
-    image = [self primitiveValueForKey:kImageEntity];
-    [self didAccessValueForKey:kImageEntity];
-    NSLog(@"get image");
-    
-    return image;
+- (NSString *)description {
+    return [NSString stringWithFormat:@"\n guid = %@\n title = %@\n author = %@\n duration = %@\n sourceType = %@\n pubDate = %@\n image.webLink = %@\n image.localLink = %@\n content.webLink = %@\n content.localLink = %@\n details = %@",
+            self.guid,
+            self.title,
+            self.author,
+            self.duration,
+            self.sourceType,
+            [self.pubDate description],
+            self.image.webLink,
+            self.image.localLink,
+            self.content.webLink,
+            self.content.localLink,
+            self.details];
 }
-
-- (void)setImage:(ImageManagedObject *)image {
-    [self willChangeValueForKey:kImageEntity];
-    [self setPrimitiveValue:image forKey:kImageEntity];
-    [self didChangeValueForKey:kImageEntity];
-    NSLog(@"set image");
-}
-
-//content
-- (ContentManagedObject *)content {
-    ContentManagedObject* content = nil;
-    [self willAccessValueForKey:kContentEntity];
-    content = [self primitiveValueForKey:kContentEntity];
-    [self didAccessValueForKey:kContentEntity];
-    NSLog(@"get content");
-    
-    return content;
-}
-
-- (void)setContent:(ContentManagedObject *)content {
-    [self willChangeValueForKey:kContentEntity];
-    [self setPrimitiveValue:content forKey:kContentEntity];
-    [self didChangeValueForKey:kContentEntity];
-    NSLog(@"set content");
-}
-
-
-//- (NSString *)description {
-//    return [NSString stringWithFormat:@"\n guid = %@\n title = %@\n author = %@\n duration = %@\n sourceType = %@\n pubDate = %@\n image.webLink = %@\n image.localLink = %@\n content.webLink = %@\n content.localLink = %@\n details = %@",
-//            self.guid,
-//            self.title,
-//            self.author,
-//            self.duration,
-//            self.sourceType,
-//            [self.pubDate description],
-//            self.image.webLink,
-//            self.image.localLink,
-//            self.content.webLink,
-//            self.content.localLink,
-//            self.details];
-//}
 @end
 
 
