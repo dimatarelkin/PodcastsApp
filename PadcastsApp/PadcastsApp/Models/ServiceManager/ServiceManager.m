@@ -7,14 +7,24 @@
 //
 
 #import "ServiceManager.h"
+#import "CoreDataManager.h"
 
 
 @interface ServiceManager()
 @property (strong, nonatomic) Parser *parser;
+@property (strong, nonatomic) CoreDataManager* coreDataManger;
 @end
 
 @implementation ServiceManager
 
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.coreDataManger = [[CoreDataManager alloc] init];
+    }
+    return self;
+}
 
 #pragma mark - XMLParser + ParserDelegate
 
@@ -33,20 +43,39 @@
 
 
 
+
+
 #pragma mark - CoreData offline mode
 -(void)saveDataItemsIntoCoreData:(NSArray<ItemObject*>*)items {
-    
+    [self.coreDataManger saveDataItemsIntoCoreData:items];
 }
 
--(NSArray<ItemObject*>*)fetchDataFromCoreData {
-    NSArray* array;
-    return array;
+- (void)deleteItemFromCoredata:(ItemObject *)item {
+    [self.coreDataManger deleteItemFromCoredata:item];
+}
+
+
+- (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
+    return [self.coreDataManger fetchAllItemsFromCoreData];
+}
+
+
+- (ItemObject *)fetchItemfromCoredata:(NSString*)guid {
+    return [self.coreDataManger fetchItemfromCoredata:guid];
+}
+
+
+- (void)saveItemIntoCoreData:(ItemObject *)item {
+    [self.coreDataManger saveItemIntoCoreData:item];
 }
 
 
 
 
 
+
+
+#warning incomplete sandbox methods
 #pragma mark - SandBox Handler
 -(void)saveContentIntoSandBox:(ItemObject*)item {
     

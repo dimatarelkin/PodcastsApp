@@ -31,7 +31,7 @@ static NSString * const kElementSourceType  = @"sourceType";
 @property (strong, nonatomic) NSString  *guiD;
 @property (strong, nonatomic) NSString  *title;
 @property (strong, nonatomic) NSString  *author;
-@property (strong, nonatomic) NSString  *descrip;
+@property (strong, nonatomic) NSString  *details;
 @property (strong, nonatomic) Content   *content;
 @property (strong, nonatomic) Image     *image;
 @property (strong, nonatomic) NSString  *duration;

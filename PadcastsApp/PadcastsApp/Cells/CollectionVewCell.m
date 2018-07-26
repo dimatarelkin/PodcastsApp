@@ -13,7 +13,7 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 
 
 @interface CollectionVewCell()
-@property (assign, nonatomic) CGFloat multiplier;
+
 @end
 
 
@@ -89,11 +89,6 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 
 
 -(void)setDateLabelWithDate:(NSString*)dateString {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
-    NSDate *date = [dateFormat dateFromString:dateString];
-    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
-    dateString = [dateFormat stringFromDate:date];
     self.date.text = dateString;
     self.date.textColor = [UIColor blackColor];
     [self.date setTextAlignment:NSTextAlignmentRight];

@@ -16,10 +16,10 @@
         <attribute name="duration" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="guid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pubDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="sourceType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="sourceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="content" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContentManagedObject" inverseName="item" inverseEntity="ContentManagedObject" syncable="YES"/>
-        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ImageManagedObject" inverseName="item" inverseEntity="ImageManagedObject" syncable="YES"/>
+        <relationship name="content" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ContentManagedObject" inverseName="item" inverseEntity="ContentManagedObject" syncable="YES"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ImageManagedObject" inverseName="item" inverseEntity="ImageManagedObject" syncable="YES"/>
     </entity>
     <elements>
         <element name="ItemManagedObject" positionX="-90" positionY="-288" width="128" height="178"/>

@@ -34,6 +34,8 @@
 }
 
 - (void)viewDidLoad {
+    self.view.backgroundColor = UIColor.blueColor;
+    NSLog(@"DetailController has been show");
     [super viewDidLoad];
 }
 

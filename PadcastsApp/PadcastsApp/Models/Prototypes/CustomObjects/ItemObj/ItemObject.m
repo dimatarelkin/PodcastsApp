@@ -13,7 +13,7 @@
 - (NSString *)description {
     return [NSString stringWithFormat:@"\n ID - %@\n title - %@\n author - %@\n description - %@\n content - %@\n image - %@\n duration - %@\n publicationDate - %@\n sourceType - %@",
             self.guiD, self.title,
-            self.author, self.descrip,
+            self.author, self.details,
             self.content.webLink, self.image.webLink,
             self.duration, self.publicationDate,
             self.sourceType == 0 ? @"MP3":@"TED"];
@@ -34,11 +34,17 @@
     self.guiD            = [objects objectForKey:kElementID];
     self.title           = [objects objectForKey:kElementTitle];
     self.author          = [objects objectForKey:kElementAuthor];
-    self.descrip         = [objects objectForKey:kElementDescription];
+    self.details         = [objects objectForKey:kElementDescription];
     self.content.webLink = [objects objectForKey:kElementContent];
     self.image.webLink   = [objects objectForKey:kElementImage];
     self.duration        = [objects objectForKey:kElementDuration];
     self.publicationDate = [objects objectForKey:kElementPubDate];
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E, dd MMM yyyy HH:mm:ss Z"];
+    NSDate *date = [dateFormat dateFromString:self.publicationDate];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    self.publicationDate = [dateFormat stringFromDate:date];
 }
 
 @end

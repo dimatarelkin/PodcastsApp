@@ -1,13 +1,13 @@
 //
-//  ContentManagedObject.h
+//  Downloader.m
 //  PadcastsApp
 //
 //  Created by Dzmitry Tarelkin on 7/26/18.
 //  Copyright © 2018 Dzmitry Tarelkin. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
+#import "Downloader.h"
 
-@interface ContentManagedObject : NSManagedObject
+@implementation Downloader
 
 @end

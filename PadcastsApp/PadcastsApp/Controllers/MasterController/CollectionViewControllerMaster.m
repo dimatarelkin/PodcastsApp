@@ -83,7 +83,7 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 
 
 #pragma mark <UICollectionViewDelegate>
-// Uncomment this method to specify if the specified item should be highlighted during tracking
+
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
 	return YES;
 }
@@ -96,19 +96,15 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.collectionView
-     selectItemAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]
-     animated:YES
-     scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+ 
     ItemObject *item = [self.dataSource objectAtIndex:indexPath.row];
     DetailViewController *detail = [[DetailViewController alloc] initWithItem:item];
+    [self.splitViewController showDetailViewController:detail sender:nil];
+    
+    [self.manager  saveItemIntoCoreData:item];
     NSLog(@"item at %ld was tapped", (long)indexPath.row);
 }
 
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
 	return YES;

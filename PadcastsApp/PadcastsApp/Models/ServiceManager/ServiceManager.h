@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "Parser.h"
 #import "ItemObject.h"
 
@@ -16,20 +17,29 @@
 -(void)downloadingWasFinished:(NSArray*)result;
 @end
 
+//coreData offline mode
+@protocol CoreDataHandlingProtocol <NSObject>
+-(void)saveItemIntoCoreData:(ItemObject*)item;
+-(void)deleteItemFromCoredata:(ItemObject*)item;
+-(void)saveDataItemsIntoCoreData:(NSArray<ItemObject*>*)items;
+-(NSArray<ItemObject*>*)fetchAllItemsFromCoreData;
+-(ItemObject*)fetchItemfromCoredata:(NSString*)guid;
+@end
 
-@interface ServiceManager : NSObject <ParserDelegate>
+//sandBox
+@protocol SandBoxHanlderProtocol <NSObject>
+-(void)saveContentIntoSandBoxForItem:(ItemObject*)item;
+-(void)saveImageIntoSandBoxForItem:(ItemObject*)item;
+-(UIImage*)fetchImageFromSandBoxForItem:(ItemObject*)item;  //returns image
+-(ItemObject*)fetchContentfromSandBox:(ItemObject*)item;    //returns audio or video content
+@end
 
 
 
+@interface ServiceManager : NSObject <ParserDelegate, CoreDataHandlingProtocol, SandBoxHanlderProtocol>
 //parser
 -(void)downloadAndParseFileFromURL:(NSURL*)url withType:(SourceType)sourceType;
 @property (weak, nonatomic) id<ServiceDownloadDelegate> delegate;
 
-//coreData offline mode
--(void)saveDataItemsIntoCoreData:(NSArray<ItemObject*>*)items;
--(NSArray<ItemObject*>*)fetchDataFromCoreData;
 
-//sandBox
--(void)saveContentIntoSandBox:(ItemObject*)item;
--(ItemObject*)fetchContentfromSandBox:(NSURL*)url;
 @end

@@ -26,6 +26,8 @@
 		62BEF47E2109CEB60047D450 /* ItemManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF47D2109CEB60047D450 /* ItemManagedObject.m */; };
 		62BEF4822109CF1B0047D450 /* ImageManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4812109CF1B0047D450 /* ImageManagedObject.m */; };
 		62BEF4852109CF3F0047D450 /* ContentManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF4842109CF3F0047D450 /* ContentManagedObject.m */; };
+		62BEF493210A10250047D450 /* SandBoxManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF492210A10250047D450 /* SandBoxManager.m */; };
+		62BEF496210A174E0047D450 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BEF495210A174E0047D450 /* Downloader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,10 @@
 		62BEF4812109CF1B0047D450 /* ImageManagedObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageManagedObject.m; sourceTree = "<group>"; };
 		62BEF4832109CF3F0047D450 /* ContentManagedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentManagedObject.h; sourceTree = "<group>"; };
 		62BEF4842109CF3F0047D450 /* ContentManagedObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContentManagedObject.m; sourceTree = "<group>"; };
+		62BEF491210A10250047D450 /* SandBoxManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SandBoxManager.h; sourceTree = "<group>"; };
+		62BEF492210A10250047D450 /* SandBoxManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SandBoxManager.m; sourceTree = "<group>"; };
+		62BEF494210A174E0047D450 /* Downloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
+		62BEF495210A174E0047D450 /* Downloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,12 +129,7 @@
 		624A292A2106138D004FF7BC /* Prototypes */ = {
 			isa = PBXGroup;
 			children = (
-				624A29272106111D004FF7BC /* ItemObject.h */,
-				624A29282106111D004FF7BC /* ItemObject.m */,
-				624A292121060F4C004FF7BC /* Content.h */,
-				624A292221060F4C004FF7BC /* Content.m */,
-				624A292421060F5A004FF7BC /* Image.h */,
-				624A292521060F5A004FF7BC /* Image.m */,
+				62BEF48C210A0B8C0047D450 /* CustomObjects */,
 				62BEF47F2109CEC80047D450 /* ManagedObjects */,
 			);
 			path = Prototypes;
@@ -148,6 +149,8 @@
 			children = (
 				629A96DF21073CCC004E809B /* ServiceManager.h */,
 				629A96DE21073CCC004E809B /* ServiceManager.m */,
+				62BEF497210A17570047D450 /* Downloader */,
+				62BEF490210A10040047D450 /* SandBoxManager */,
 				62BEF4762109C8A20047D450 /* CoreDataManager */,
 				624A293221061667004FF7BC /* XMLParser */,
 			);
@@ -212,14 +215,93 @@
 		62BEF47F2109CEC80047D450 /* ManagedObjects */ = {
 			isa = PBXGroup;
 			children = (
+				62BEF486210A07000047D450 /* Item */,
+				62BEF487210A07150047D450 /* Image */,
+				62BEF488210A07250047D450 /* Content */,
+			);
+			path = ManagedObjects;
+			sourceTree = "<group>";
+		};
+		62BEF486210A07000047D450 /* Item */ = {
+			isa = PBXGroup;
+			children = (
 				62BEF47C2109CEB60047D450 /* ItemManagedObject.h */,
 				62BEF47D2109CEB60047D450 /* ItemManagedObject.m */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		62BEF487210A07150047D450 /* Image */ = {
+			isa = PBXGroup;
+			children = (
 				62BEF4802109CF1B0047D450 /* ImageManagedObject.h */,
 				62BEF4812109CF1B0047D450 /* ImageManagedObject.m */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		62BEF488210A07250047D450 /* Content */ = {
+			isa = PBXGroup;
+			children = (
 				62BEF4832109CF3F0047D450 /* ContentManagedObject.h */,
 				62BEF4842109CF3F0047D450 /* ContentManagedObject.m */,
 			);
-			path = ManagedObjects;
+			path = Content;
+			sourceTree = "<group>";
+		};
+		62BEF489210A07390047D450 /* ItemObj */ = {
+			isa = PBXGroup;
+			children = (
+				624A29272106111D004FF7BC /* ItemObject.h */,
+				624A29282106111D004FF7BC /* ItemObject.m */,
+			);
+			path = ItemObj;
+			sourceTree = "<group>";
+		};
+		62BEF48A210A07540047D450 /* ContentObj */ = {
+			isa = PBXGroup;
+			children = (
+				624A292121060F4C004FF7BC /* Content.h */,
+				624A292221060F4C004FF7BC /* Content.m */,
+			);
+			path = ContentObj;
+			sourceTree = "<group>";
+		};
+		62BEF48B210A07600047D450 /* ImageObj */ = {
+			isa = PBXGroup;
+			children = (
+				624A292421060F5A004FF7BC /* Image.h */,
+				624A292521060F5A004FF7BC /* Image.m */,
+			);
+			path = ImageObj;
+			sourceTree = "<group>";
+		};
+		62BEF48C210A0B8C0047D450 /* CustomObjects */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF489210A07390047D450 /* ItemObj */,
+				62BEF48A210A07540047D450 /* ContentObj */,
+				62BEF48B210A07600047D450 /* ImageObj */,
+			);
+			path = CustomObjects;
+			sourceTree = "<group>";
+		};
+		62BEF490210A10040047D450 /* SandBoxManager */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF491210A10250047D450 /* SandBoxManager.h */,
+				62BEF492210A10250047D450 /* SandBoxManager.m */,
+			);
+			path = SandBoxManager;
+			sourceTree = "<group>";
+		};
+		62BEF497210A17570047D450 /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				62BEF494210A174E0047D450 /* Downloader.h */,
+				62BEF495210A174E0047D450 /* Downloader.m */,
+			);
+			path = Downloader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +376,7 @@
 			files = (
 				62BEF4852109CF3F0047D450 /* ContentManagedObject.m in Sources */,
 				62BEF4822109CF1B0047D450 /* ImageManagedObject.m in Sources */,
+				62BEF496210A174E0047D450 /* Downloader.m in Sources */,
 				62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */,
 				62BEF47E2109CEB60047D450 /* ItemManagedObject.m in Sources */,
 				62BEF47B2109C9240047D450 /* CoreDataManager.m in Sources */,
@@ -303,6 +386,7 @@
 				629A96E021073CCC004E809B /* ServiceManager.m in Sources */,
 				62BEF4702108B6E20047D450 /* SplitController.m in Sources */,
 				624A29292106111D004FF7BC /* ItemObject.m in Sources */,
+				62BEF493210A10250047D450 /* SandBoxManager.m in Sources */,
 				624A28F62105E393004FF7BC /* main.m in Sources */,
 				624A28E52105E392004FF7BC /* AppDelegate.m in Sources */,
 				629A96EA210780B7004E809B /* DetailViewController.m in Sources */,
