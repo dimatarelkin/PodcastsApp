@@ -56,21 +56,9 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     }
 }
 
-//@property (strong,nonatomic) NSString * title;
-//@property (strong,nonatomic) NSString * author;
-//@property (strong,nonatomic) NSString * details;
-//@property (strong,nonatomic) NSString * duration;
-//@property (strong,nonatomic) NSString * guid;
-//@property (strong,nonatomic) NSDate   * pubDate;
-//@property (assign,nonatomic) NSNumber * sourceType;
-//
-////relations
-//@property (strong, nonatomic) ImageManagedObject *image;
-//@property (strong, nonatomic) ContentManagedObject* content;
-
 
 #pragma mark - CoreDataHandlingProtocol Methods
-
+//ADD
 - (void)saveItemIntoCoreData:(ItemObject *)item {
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kItemEntity inManagedObjectContext:self.persistentContainer.viewContext];
     NSEntityDescription *imageEntityDiscription = [NSEntityDescription entityForName:kImageEntity inManagedObjectContext:self.persistentContainer.viewContext];
@@ -109,6 +97,44 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     [self saveContext];
 }
 
+//DELETE
+- (void)deleteItemFromCoredata:(ItemObject *)item {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"guid == %@",item.guiD];
+    [fetchRequest setPredicate:predicate];
+    
+    ItemManagedObject *manageObject = [[self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil] firstObject];
+    if ([item.guiD isEqualToString: manageObject.guid]) {
+        [self.persistentContainer.viewContext deleteObject:manageObject];
+        [self saveContext];
+        NSLog(@"Object has been deleted");
+    }
+}
+
+
+//UPDATE
+-(void)updateDataAndSetLocalLinks:(ItemObject*)item {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"guid == %@",item.guiD];
+    [fetchRequest setPredicate:predicate];
+    
+    ItemManagedObject *manageObject = [[self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil] firstObject];
+    if ([item.guiD isEqualToString: manageObject.guid]) {
+        manageObject.title  = item.title;
+        manageObject.author = item.author;
+        manageObject.details = item.details;
+        manageObject.duration = item.duration;
+        manageObject.sourceType = item.sourceType;
+        manageObject.pubDate = [self createDateFromString:item.publicationDate];
+        manageObject.content.localLink = item.content.localLink;
+        manageObject.content.webLink = item.content.webLink;
+        manageObject.image.localLink = item.image.localLink;
+        manageObject.image.webLink = item.image.webLink;
+        [self saveContext];
+        NSLog(@"Object has been updated");
+    }
+}
+
 -(NSDate*)createDateFromString:(NSString*)string {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
@@ -116,17 +142,80 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     return date;
 }
 
-//- (void)deleteItemFromCoredata:(ItemObject *)item {
-//    <#code#>
-//}
-//
-//- (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
-//    <#code#>
-//}
-//
-//- (ItemObject *)fetchItemfromCoredata:(NSString*)guid {
-//    <#code#>
-//}
+
+- (ItemObject *)fetchItemfromCoredata:(NSString*)guid {
+    ItemObject *item = [[ItemObject alloc] init];
+    NSArray *items = [self fetchAllItemsFromCoreData];
+    
+    for (ItemObject* itemObj in items ) {
+        if ([guid isEqualToString:item.guiD]) {
+            item = itemObj;
+        }
+    }
+    return item;
+}
+
+
+
+-(void)deleteAllDataFromCoreData {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
+    NSArray* results;
+    
+    if (!fetchRequest) {
+        NSLog(@"error with fetch request");
+    } else {
+        results = [self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil];
+        if (results.count == 0) {
+            NSLog(@"Context is empty");
+        } else {
+            for (ItemManagedObject *manageObject in results) {
+                //cleaning context
+                [manageObject.managedObjectContext deleteObject:manageObject];
+            }
+            [self saveContext];
+            NSLog(@"Context have been cleaned");
+        }
+    }
+}
+
+- (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
+    NSArray* results;
+    NSMutableArray* items = [NSMutableArray array];
+    
+    if (!fetchRequest) {
+        NSLog(@"error with fetch request");
+    } else {
+        results = [self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil];
+        
+        for (ItemManagedObject *manageObject in results) {
+            ItemObject* item = [[ItemObject alloc] init];
+          
+            item.title = manageObject.title ;
+            item.author =  manageObject.author;
+            item.details = manageObject.details;
+            item.duration = manageObject.duration;
+            item.sourceType = (NSInteger)manageObject.sourceType == 0 ? MP3SourceType : TEDSourceType;
+//            item.publicationDate = [manageObject.pubDate;
+            item.content.localLink = manageObject.content.localLink;
+            item.content.webLink = manageObject.content.webLink;
+            item.image.localLink = manageObject.image.localLink;
+            item.image.webLink = manageObject.image.webLink;
+            [items addObject:item];
+        }
+        
+        if (items.count == 0) {
+            NSLog(@"Context is empty");
+        } else {
+            NSLog(@"All Tasks have been fetched");
+            NSLog(@"fetch %@",[items componentsJoinedByString:@"-"]);
+        }
+    }
+    
+    return items;
+}
+
+
 //
 //- (void)saveDataItemsIntoCoreData:(NSArray<ItemObject *> *)items {
 //    <#code#>
