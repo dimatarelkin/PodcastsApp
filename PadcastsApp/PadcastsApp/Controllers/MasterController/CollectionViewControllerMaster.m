@@ -74,6 +74,7 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
     
     
     if (item.image.localLink != nil) {
+        cell.imageView.image = nil;
         [cell.imageView setImage:[self.manager fetchImageFromSandBoxForItem:item]];
     } else {
         [self.manager downloadImageForItem:item withCompletionBlock:^(NSData* data) {

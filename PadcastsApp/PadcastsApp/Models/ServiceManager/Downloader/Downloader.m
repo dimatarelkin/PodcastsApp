@@ -17,7 +17,7 @@
     if (item.sourceType == MP3SourceType) {
         url = [NSURL URLWithString: [NSString stringWithFormat:@"%@",item.image.webLink]];
     } else {
-        url = [NSURL URLWithString: [NSString stringWithFormat:@"%@w=500",item.image.webLink]];
+        url = [NSURL URLWithString: [NSString stringWithFormat:@"%@w=300",item.image.webLink]];
     }
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

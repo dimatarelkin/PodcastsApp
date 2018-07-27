@@ -39,13 +39,14 @@
     NSURLSessionDownloadTask *downloadTask =
     [session downloadTaskWithURL:url completionHandler:^(NSURL *  location, NSURLResponse *  response, NSError *  error) {
 
-        NSData* data = [NSData dataWithContentsOfURL:location];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.xmlParser = [[NSXMLParser alloc] initWithData:data];
-            self.xmlParser.delegate = self;
-            [self.xmlParser parse];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             NSData* data = [NSData dataWithContentsOfURL:location];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.xmlParser = [[NSXMLParser alloc] initWithData:data];
+                self.xmlParser.delegate = self;
+                [self.xmlParser parse];
+            });
         });
-        [session invalidateAndCancel];
     }];
     [downloadTask resume];
 }
