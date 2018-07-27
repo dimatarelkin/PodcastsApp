@@ -10,6 +10,7 @@
 #import "CollectionVewCell.h"
 #import "DetailViewController.h"
 
+
 @interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) ServiceManager* manager;
 
@@ -27,6 +28,7 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.navigationItem.title = @"Feed";
     self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
     self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
@@ -52,7 +54,6 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 }
 
 
-
 #pragma mark <UICollectionViewDataSource>
 
 //SECTION
@@ -71,7 +72,23 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
     ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
     [cell setDataToLabelsFrom:item];
     
+    
+    if (item.image.localLink != nil) {
+        [cell.imageView setImage:[self.manager fetchImageFromSandBoxForItem:item]];
+    } else {
+        [self.manager downloadImageForItem:item withCompletionBlock:^(NSData* data) {
+            
+            UIImage* img = [UIImage imageWithData:data];
+            [cell.imageView setImage:img];
+        }];
+    }
+
     return cell;
+}
+
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 -(void)downloadingWasFinished:(NSArray*)result {
@@ -101,7 +118,6 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
     DetailViewController *detail = [[DetailViewController alloc] initWithItem:item];
     [self.splitViewController showDetailViewController:detail sender:nil];
     
-    [self.manager  saveItemIntoCoreData:item];
     NSLog(@"item at %ld was tapped", (long)indexPath.row);
 }
 
@@ -115,7 +131,7 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 #pragma mark <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    return CGSizeMake(CGRectGetWidth(collectionView.frame), 130);
+    return CGSizeMake(CGRectGetWidth(collectionView.bounds), 130);
 }
 
 

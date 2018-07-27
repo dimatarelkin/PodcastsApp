@@ -130,6 +130,8 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
         manageObject.content.webLink = item.content.webLink;
         manageObject.image.localLink = item.image.localLink;
         manageObject.image.webLink = item.image.webLink;
+        
+        NSLog(@"item = %@", [item description]);
         [self saveContext];
         NSLog(@"Object has been updated");
     }
@@ -196,7 +198,7 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
             item.details = manageObject.details;
             item.duration = manageObject.duration;
             item.sourceType = (NSInteger)manageObject.sourceType == 0 ? MP3SourceType : TEDSourceType;
-//            item.publicationDate = [manageObject.pubDate;
+//            item.publicationDate = manageObject.pubDate;
             item.content.localLink = manageObject.content.localLink;
             item.content.webLink = manageObject.content.webLink;
             item.image.localLink = manageObject.image.localLink;
@@ -214,6 +216,8 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     
     return items;
 }
+
+
 
 
 //

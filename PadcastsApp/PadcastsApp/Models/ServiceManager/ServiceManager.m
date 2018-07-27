@@ -8,11 +8,15 @@
 
 #import "ServiceManager.h"
 #import "CoreDataManager.h"
+#import "SandBoxManager.h"
+#import "Downloader.h"
 
 
 @interface ServiceManager()
-@property (strong, nonatomic) Parser *parser;
-@property (strong, nonatomic) CoreDataManager* coreDataManger;
+@property (strong, nonatomic) Parser          * parser;
+@property (strong, nonatomic) CoreDataManager * coreDataManger;
+@property (strong, nonatomic) SandBoxManager  * sandBoxManager;
+@property (strong, nonatomic) Downloader      * downloadManager;
 @end
 
 @implementation ServiceManager
@@ -21,7 +25,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.coreDataManger = [[CoreDataManager alloc] init];
+        self.coreDataManger  = [[CoreDataManager alloc] init];
+        self.sandBoxManager  = [[SandBoxManager alloc] init];
+        self.downloadManager = [[Downloader alloc] init];
     }
     return self;
 }
@@ -35,13 +41,10 @@
 
 }
 
-
 - (void)downloadingWasFinishedWithResult:(NSArray *)result {
     //inform the delegate(tableView)
     [self.delegate downloadingWasFinished:result];
 }
-
-
 
 
 
@@ -54,7 +57,6 @@
     [self.coreDataManger deleteItemFromCoredata:item];
 }
 
-
 - (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
     return [self.coreDataManger fetchAllItemsFromCoreData];
 }
@@ -64,10 +66,14 @@
     return [self.coreDataManger fetchItemfromCoredata:guid];
 }
 
-
 - (void)saveItemIntoCoreData:(ItemObject *)item {
     [self.coreDataManger saveItemIntoCoreData:item];
 }
+
+- (void)updateDataAndSetLocalLinks:(ItemObject *)item {
+    [self.coreDataManger updateDataAndSetLocalLinks:item];
+}
+
 
 
 
@@ -77,17 +83,34 @@
 
 #warning incomplete sandbox methods
 #pragma mark - SandBox Handler
--(void)saveContentIntoSandBox:(ItemObject*)item {
+
+
+- (UIImage *)fetchImageFromSandBoxForItem:(ItemObject *)item {
+    return  [self.sandBoxManager fetchImageFromSandBoxForItem:item];
+}
+
+- (void)saveContent:(NSObject *)content IntoSandBoxForItem:(ItemObject *)item {
+    [self.sandBoxManager saveContent:content IntoSandBoxForItem:item];
+}
+
+- (void)saveDataWithImage:(NSData*)data IntoSandBoxForItem:(ItemObject *)item{
+    [self.sandBoxManager saveDataWithImage:data IntoSandBoxForItem:item];
+}
+
+
+
+
+
+
+#pragma mark - DownloadManager
+
+-(void)downloadImageForItem:(ItemObject*)item withCompletionBlock:(void(^)(NSData*)) completion {
+    
+    [self.downloadManager downloadImageForItem:item withCompletionBlock:^(NSData* data) {
+        completion(data);
+        [self saveDataWithImage:data IntoSandBoxForItem:item];
+    }];
     
 }
--(ItemObject*)fetchContentfromSandBox:(NSURL*)url {
-    ItemObject *item = [[ItemObject alloc] init];
-    return item;
-}
-
-
-
-
-
 
 @end

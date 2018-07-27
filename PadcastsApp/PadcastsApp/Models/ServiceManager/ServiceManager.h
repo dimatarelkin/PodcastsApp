@@ -12,7 +12,7 @@
 #import "ItemObject.h"
 
 
-
+//delegate
 @protocol ServiceDownloadDelegate <NSObject>
 -(void)downloadingWasFinished:(NSArray*)result;
 @end
@@ -24,19 +24,23 @@
 -(void)saveDataItemsIntoCoreData:(NSArray<ItemObject*>*)items;
 -(NSArray<ItemObject*>*)fetchAllItemsFromCoreData;
 -(ItemObject*)fetchItemfromCoredata:(NSString*)guid;
+-(void)updateDataAndSetLocalLinks:(ItemObject*)item;
 @end
 
 //sandBox
 @protocol SandBoxHanlderProtocol <NSObject>
--(void)saveContentIntoSandBoxForItem:(ItemObject*)item;
--(void)saveImageIntoSandBoxForItem:(ItemObject*)item;
+-(void)saveContent:(NSObject*)content IntoSandBoxForItem:(ItemObject*)item;
+- (void)saveDataWithImage:(NSData*)data IntoSandBoxForItem:(ItemObject *)item;
 -(UIImage*)fetchImageFromSandBoxForItem:(ItemObject*)item;  //returns image
 -(ItemObject*)fetchContentfromSandBox:(ItemObject*)item;    //returns audio or video content
 @end
 
+@protocol DownloadManagerProtocol
+-(void)downloadImageForItem:(ItemObject*)item withCompletionBlock:(void(^)(NSData*)) completion ;
+@end
 
 
-@interface ServiceManager : NSObject <ParserDelegate, CoreDataHandlingProtocol, SandBoxHanlderProtocol>
+@interface ServiceManager : NSObject <ParserDelegate, CoreDataHandlingProtocol, SandBoxHanlderProtocol, DownloadManagerProtocol>
 //parser
 -(void)downloadAndParseFileFromURL:(NSURL*)url withType:(SourceType)sourceType;
 @property (weak, nonatomic) id<ServiceDownloadDelegate> delegate;

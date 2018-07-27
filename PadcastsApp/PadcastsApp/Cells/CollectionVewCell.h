@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ItemObject.h"
 
+
 @interface CollectionVewCell : UICollectionViewCell
 
 //right StackView
@@ -21,7 +22,6 @@
 @property (strong, nonatomic) UIStackView *imageAndTypeStack;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UILabel     *duration;
-
 
 -(void)setDataToLabelsFrom:(ItemObject*)item;
 

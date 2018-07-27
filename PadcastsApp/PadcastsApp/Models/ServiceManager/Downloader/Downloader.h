@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "ServiceManager.h"
 
-@interface Downloader : NSObject
+@interface Downloader : NSObject <DownloadManagerProtocol>
 
 @end

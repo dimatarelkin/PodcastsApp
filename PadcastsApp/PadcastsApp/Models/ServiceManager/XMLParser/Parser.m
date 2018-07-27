@@ -43,8 +43,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.xmlParser = [[NSXMLParser alloc] initWithData:data];
             self.xmlParser.delegate = self;
-            [self.xmlParser parse]; 
+            [self.xmlParser parse];
         });
+        [session invalidateAndCancel];
     }];
     [downloadTask resume];
 }

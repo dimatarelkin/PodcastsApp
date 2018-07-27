@@ -33,6 +33,7 @@
 
     SplitController* splitViewController = [[SplitController alloc] init];
     [splitViewController setViewControllers:@[nav,detail]];
+    [splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAllVisible];
     
     [self.window setRootViewController:splitViewController];
     [self.window makeKeyAndVisible];
