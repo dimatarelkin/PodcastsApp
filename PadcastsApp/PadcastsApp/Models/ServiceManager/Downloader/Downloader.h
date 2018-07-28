@@ -11,5 +11,9 @@
 #import "ServiceManager.h"
 
 @interface Downloader : NSObject <DownloadManagerProtocol>
-
++(Downloader*)sharedDownloader;
+-(void)getImagesWithOffset:(NSInteger)offset
+                     count:(NSInteger)count
+              onSuccess:(void(^)(NSArray* images)) successCompletion
+              onFailure:(void(^)(NSError* error, NSInteger statusCode)) failureCompletion;
 @end

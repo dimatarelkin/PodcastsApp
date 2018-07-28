@@ -7,6 +7,7 @@
 //
 
 #import "CollectionVewCell.h"
+#import "ServiceManager.h"
 
 
 static NSString * const kMusicPlaceHolder = @"music_placeholder2";
@@ -59,6 +60,9 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
     self.imageView = [[UIImageView alloc]init];
     [self.imageView  setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisVertical];
     [self.imageView setClipsToBounds:YES];
+    self.imageView.layer.cornerRadius = 5;
+    [self.imageView setImage:[UIImage imageNamed:kVideoPlaceHolder]];
+    [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
     
     
     
@@ -73,21 +77,29 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 
 
 
--(void)setDataToLabelsFrom:(ItemObject*)item{
+-(void)setDataToLabelsFrom:(ItemObject*)item {
     self.title.text = item.title;
     self.author.text = item.author;
     [self.author setTextAlignment:NSTextAlignmentLeft];
     [self setDateLabelWithDate:item.publicationDate];
-    
     self.duration.text = item.duration;
-
+    
+//    if (item.image.localLink != nil) {
+//        [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
+//        NSLog(@"%@",item.image.localLink);
+//    } else {
+//        [[ServiceManager sharedManager] downloadImageForItem:item withCompletionBlock:^(NSData* data) {
+//            UIImage* img = [UIImage imageWithData:data];
+//            [self.imageView setImage:img];
+//        }];
+//    }
+    
     if (item.sourceType == MP3SourceType) {
-        [self.imageView setImage:[UIImage imageNamed:kMusicPlaceHolder]];
-        [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
+      [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
     } else {
-        [self.imageView setImage:[UIImage imageNamed:kVideoPlaceHolder]];
-        [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
+      [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
     }
+
 }
 
 

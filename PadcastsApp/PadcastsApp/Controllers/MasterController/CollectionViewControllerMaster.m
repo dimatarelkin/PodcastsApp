@@ -9,10 +9,14 @@
 #import "CollectionViewControllerMaster.h"
 #import "CollectionVewCell.h"
 #import "DetailViewController.h"
+#import "ServiceManager.h"
 
 
-@interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
-@property (strong, nonatomic) ServiceManager* manager;
+
+@interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ServiceDownloadDelegate>
+
+@property (strong, nonatomic) NSMutableArray *dataSource;
+@property (strong, nonatomic) NSMutableArray *images;
 
 @end
 
@@ -25,6 +29,7 @@
 static NSString * const reuseIdentifier = @"Cell";
 static NSString * const kTedURL = @"https://feeds.feedburner.com/tedtalks_video";
 static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss";
+static NSInteger  const kImagesInRequest = 5;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,10 +51,18 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
     
     NSURL* urlMP3 = [NSURL URLWithString:kMP3URL];
     NSURL* urlTED = [NSURL URLWithString:kTedURL];
-    self.manager = [[ServiceManager alloc] init];
-    self.manager.delegate = self;
-    [self.manager downloadAndParseFileFromURL:urlMP3 withType:MP3SourceType];
-    [self.manager downloadAndParseFileFromURL:urlTED withType:TEDSourceType];
+    
+    [ServiceManager sharedManager].delegate = self;
+    [[ServiceManager sharedManager] downloadAndParseFileFromURL:urlTED withType:TEDSourceType];
+    [[ServiceManager sharedManager] downloadAndParseFileFromURL:urlMP3 withType:MP3SourceType];
+    
+    
+    
+
+    
+#warning download images
+//    self.images = [NSMutableArray array];
+//    [self getImages];
     
 }
 
@@ -66,23 +79,45 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
     return self.dataSource.count;
 }
 
+
+#warning methodDownloader
+//-(void)getImages {
+//    [[Downloader sharedDownloader]
+//     getImagesWithOffset:[self.images count]
+//     count:kImagesInRequest
+//     onSuccess:^(NSArray *images) {
+//         [self.images addObjectsFromArray:images];
+//
+//         NSMutableArray* newPaths = [NSMutableArray array];
+//         for (int i = (int)[self.images count] - (int)[images count]; i < self.images.count; i++) {
+//             [newPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//         }
+//         [self.collectionView insertItemsAtIndexPaths:newPaths];
+//     }
+//     onFailure:^(NSError *error, NSInteger statusCode) {
+//         NSLog(@"error = %@, status code = %ld",[error localizedDescription], (long)statusCode);
+//     }];
+//}
+
+
+
+
 //CELL REUSE
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionVewCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
     [cell setDataToLabelsFrom:item];
     
-    
     if (item.image.localLink != nil) {
-        cell.imageView.image = nil;
-        [cell.imageView setImage:[self.manager fetchImageFromSandBoxForItem:item]];
+        [cell.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
     } else {
-        [self.manager downloadImageForItem:item withCompletionBlock:^(NSData* data) {
-            
+        [[ServiceManager sharedManager] downloadImageForItem:item withImageQuality:ImageQualityLow withCompletionBlock:^(NSData *data) {
+            [[ServiceManager sharedManager] saveDataWithImage:data IntoSandBoxForItem:item];
             UIImage* img = [UIImage imageWithData:data];
             [cell.imageView setImage:img];
         }];
     }
+    
 
     return cell;
 }
@@ -116,7 +151,9 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
  
     ItemObject *item = [self.dataSource objectAtIndex:indexPath.row];
-    DetailViewController *detail = [[DetailViewController alloc] initWithItem:item];
+//    [self.itemDelegate itemWasSelected:item];
+    DetailViewController* detail = [[DetailViewController alloc] init];
+    [detail itemWasSelected:item];
     [self.splitViewController showDetailViewController:detail sender:nil];
     
     NSLog(@"item at %ld was tapped", (long)indexPath.row);
@@ -132,7 +169,7 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 #pragma mark <UICollectionViewDelegateFlowLayout>
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    return CGSizeMake(CGRectGetWidth(collectionView.bounds), 130);
+    return CGSizeMake(CGRectGetWidth(collectionView.bounds), 120);
 }
 
 

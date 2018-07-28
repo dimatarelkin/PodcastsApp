@@ -12,11 +12,25 @@
 @property (strong,nonatomic) NSString * directory;
 @property (strong, nonatomic) NSFileManager* fileManager;
 
+@property (assign, nonatomic) int counter;
 @end
 
 @implementation SandBoxManager
 
-static NSString * const kDirectory = @"/images";
+static NSString * const kDirectory = @"/mages";
+
+
++(SandBoxManager*)sharedSandBoxManager {
+    static SandBoxManager* manager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[SandBoxManager alloc] init];
+        manager.fileManager = [[NSFileManager alloc] init];
+        [manager createDirectory];
+        manager.counter = 0;
+    });
+    return manager;
+}
 
 - (instancetype)init {
     self = [super init];
@@ -28,30 +42,34 @@ static NSString * const kDirectory = @"/images";
 }
 
 -(void)createDirectory {
-    _directory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    self.directory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
     [self createDirectoryWithPath:kDirectory];
     
     
 }
 
 -(void)createDirectoryWithPath:(NSString*)path {
-    NSString *destinationPath = [self.directory stringByAppendingString:path];
-    [self.fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:nil];
+    NSString *destinationPath = [self.directory stringByAppendingPathComponent:path];
+    self.directory = destinationPath;
+    [self.fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:NO attributes:nil error:nil];
 }
 
 //removeFileAtURL
 
 - (void)saveDataWithImage:(NSData*)data IntoSandBoxForItem:(ItemObject *)item {
-    NSString *destinationPath = [self.directory stringByAppendingString:item.guiD];
+    
+    NSString *destinationPath = [self.directory stringByAppendingPathComponent:item.guiD];
     [self.fileManager createFileAtPath:destinationPath contents:data attributes:nil];
     item.image.localLink = destinationPath;
+//    NSLog(@"link = %@",destinationPath);
     
 }
 
 - (UIImage *)fetchImageFromSandBoxForItem:(ItemObject *)item {
-    NSString *destinationPath = [self.directory stringByAppendingString:item.guiD];
-    return [UIImage imageWithContentsOfFile:destinationPath];
+    NSData *data = [NSData dataWithContentsOfFile:item.image.localLink];
+    return [UIImage imageWithData:data];
 }
+
 
 //
 //

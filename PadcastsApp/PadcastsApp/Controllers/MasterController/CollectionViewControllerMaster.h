@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ServiceManager.h"
+#import "ItemObject.h"
 
-@interface CollectionViewControllerMaster : UICollectionViewController <ServiceDownloadDelegate>
-@property (strong, nonatomic) NSMutableArray *dataSource;
+
+@protocol ItemDelegate
+-(void)itemWasSelected:(ItemObject*)item;
 @end
+
+@interface CollectionViewControllerMaster : UICollectionViewController
+@property (weak, nonatomic) id<ItemDelegate> itemDelegate;
+@end
+
+

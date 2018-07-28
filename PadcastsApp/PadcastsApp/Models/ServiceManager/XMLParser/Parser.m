@@ -67,7 +67,7 @@
     
     //inform the delegate
     [self.delegate downloadingWasFinishedWithResult:data];
-    NSLog(@"%@", [self.delegate  description]);
+//    NSLog(@"%@", [self.delegate  description]);
     
 }
 
@@ -153,16 +153,8 @@
 
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    NSLog(@"%@",[parseError localizedDescription]);
+    NSLog(@"parser error = %@",[parseError localizedDescription]);
 }
-
-
-
-
-
-
-
-
 
 
 

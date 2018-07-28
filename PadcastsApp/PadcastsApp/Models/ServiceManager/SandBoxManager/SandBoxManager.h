@@ -10,5 +10,5 @@
 #import "ServiceManager.h"
 
 @interface SandBoxManager : NSObject <SandBoxHanlderProtocol>
-
++(SandBoxManager*)sharedSandBoxManager;
 @end

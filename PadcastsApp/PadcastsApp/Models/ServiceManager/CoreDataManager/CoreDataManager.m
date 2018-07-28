@@ -25,6 +25,16 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
 
 @implementation CoreDataManager
 
++(CoreDataManager *)sharedManager {
+    static CoreDataManager* manager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[CoreDataManager alloc] init];
+    });
+    
+    return manager;
+}
+
 #pragma mark - Core Data stack
 @synthesize persistentContainer = _persistentContainer;
 

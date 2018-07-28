@@ -26,13 +26,13 @@
     UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
     CollectionViewControllerMaster *master = [[CollectionViewControllerMaster alloc] initWithCollectionViewLayout:flow];
     
-    DetailViewController *detail = [[DetailViewController alloc] init];
-    detail.view.backgroundColor = [UIColor redColor];
-    
-    UINavigationController*nav =[[UINavigationController alloc]  initWithRootViewController:master];
+    DetailViewController * detail = [[DetailViewController alloc] init];
+    UINavigationController * nav =[[UINavigationController alloc]  initWithRootViewController:master];
+    UINavigationController * navDetail = [[UINavigationController alloc] initWithRootViewController:detail];
+    master.itemDelegate= detail;
 
     SplitController* splitViewController = [[SplitController alloc] init];
-    [splitViewController setViewControllers:@[nav,detail]];
+    [splitViewController setViewControllers:@[nav,navDetail]];
     [splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAllVisible];
     
     [self.window setRootViewController:splitViewController];

@@ -12,4 +12,5 @@
 
 @interface CoreDataManager : NSObject <CoreDataHandlingProtocol>
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
++(CoreDataManager*)sharedManager;
 @end

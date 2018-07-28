@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		322DB21C210CEBA60066FBAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322DB21B210CEBA60066FBAD /* Assets.xcassets */; };
 		3267F6FD210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F3210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m */; };
 		3267F6FE210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F4210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m */; };
 		3267F6FF210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F7210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m */; };
@@ -16,7 +17,6 @@
 		624A28E52105E392004FF7BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A28E42105E392004FF7BC /* AppDelegate.m */; };
 		624A28EB2105E392004FF7BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 624A28E92105E392004FF7BC /* Main.storyboard */; };
 		624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 624A28EC2105E392004FF7BC /* PadcastsApp.xcdatamodeld */; };
-		624A28F02105E393004FF7BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 624A28EF2105E393004FF7BC /* Assets.xcassets */; };
 		624A28F32105E393004FF7BC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 624A28F12105E393004FF7BC /* LaunchScreen.storyboard */; };
 		624A28F62105E393004FF7BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A28F52105E393004FF7BC /* main.m */; };
 		624A292321060F4C004FF7BC /* Content.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A292221060F4C004FF7BC /* Content.m */; };
@@ -34,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		322DB21B210CEBA60066FBAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3267F6F1210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		3267F6F2210A631D00E12AAB /* ImageManagedObject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageManagedObject+CoreDataClass.h"; sourceTree = "<group>"; };
 		3267F6F3210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ImageManagedObject+CoreDataClass.m"; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		624A28E42105E392004FF7BC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		624A28EA2105E392004FF7BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		624A28ED2105E392004FF7BC /* PadcastsApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PadcastsApp.xcdatamodel; sourceTree = "<group>"; };
-		624A28EF2105E393004FF7BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		624A28F22105E393004FF7BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		624A28F42105E393004FF7BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		624A28F52105E393004FF7BC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -150,11 +150,11 @@
 				62BEF46A210871B30047D450 /* Cells */,
 				624A290521060AA7004FF7BC /* Models */,
 				624A28E92105E392004FF7BC /* Main.storyboard */,
-				624A28EF2105E393004FF7BC /* Assets.xcassets */,
 				624A28F12105E393004FF7BC /* LaunchScreen.storyboard */,
 				624A28F42105E393004FF7BC /* Info.plist */,
 				624A28F52105E393004FF7BC /* main.m */,
 				624A28EC2105E392004FF7BC /* PadcastsApp.xcdatamodeld */,
+				322DB21B210CEBA60066FBAD /* Assets.xcassets */,
 			);
 			path = PadcastsApp;
 			sourceTree = "<group>";
@@ -377,7 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				624A28F32105E393004FF7BC /* LaunchScreen.storyboard in Resources */,
-				624A28F02105E393004FF7BC /* Assets.xcassets in Resources */,
+				322DB21C210CEBA60066FBAD /* Assets.xcassets in Resources */,
 				624A28EB2105E392004FF7BC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

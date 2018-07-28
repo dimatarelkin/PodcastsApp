@@ -22,14 +22,13 @@
 @implementation ServiceManager
 
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.coreDataManger  = [[CoreDataManager alloc] init];
-        self.sandBoxManager  = [[SandBoxManager alloc] init];
-        self.downloadManager = [[Downloader alloc] init];
-    }
-    return self;
++(ServiceManager*)sharedManager {
+    static ServiceManager * manager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[ServiceManager alloc] init];
+    });
+    return manager;
 }
 
 #pragma mark - XMLParser + ParserDelegate
@@ -50,28 +49,28 @@
 
 #pragma mark - CoreData offline mode
 -(void)saveDataItemsIntoCoreData:(NSArray<ItemObject*>*)items {
-    [self.coreDataManger saveDataItemsIntoCoreData:items];
+    [[CoreDataManager sharedManager] saveDataItemsIntoCoreData:items];
 }
 
 - (void)deleteItemFromCoredata:(ItemObject *)item {
-    [self.coreDataManger deleteItemFromCoredata:item];
+    [[CoreDataManager sharedManager] deleteItemFromCoredata:item];
 }
 
 - (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
-    return [self.coreDataManger fetchAllItemsFromCoreData];
+    return [[CoreDataManager sharedManager] fetchAllItemsFromCoreData];
 }
 
 
 - (ItemObject *)fetchItemfromCoredata:(NSString*)guid {
-    return [self.coreDataManger fetchItemfromCoredata:guid];
+    return [[CoreDataManager sharedManager] fetchItemfromCoredata:guid];
 }
 
 - (void)saveItemIntoCoreData:(ItemObject *)item {
-    [self.coreDataManger saveItemIntoCoreData:item];
+    [[CoreDataManager sharedManager] saveItemIntoCoreData:item];
 }
 
 - (void)updateDataAndSetLocalLinks:(ItemObject *)item {
-    [self.coreDataManger updateDataAndSetLocalLinks:item];
+    [[CoreDataManager sharedManager] updateDataAndSetLocalLinks:item];
 }
 
 
@@ -86,15 +85,15 @@
 
 
 - (UIImage *)fetchImageFromSandBoxForItem:(ItemObject *)item {
-    return  [self.sandBoxManager fetchImageFromSandBoxForItem:item];
+    return  [[SandBoxManager sharedSandBoxManager] fetchImageFromSandBoxForItem:item];
 }
 
 - (void)saveContent:(NSObject *)content IntoSandBoxForItem:(ItemObject *)item {
-    [self.sandBoxManager saveContent:content IntoSandBoxForItem:item];
+    [[SandBoxManager sharedSandBoxManager] saveContent:content IntoSandBoxForItem:item];
 }
 
 - (void)saveDataWithImage:(NSData*)data IntoSandBoxForItem:(ItemObject *)item{
-    [self.sandBoxManager saveDataWithImage:data IntoSandBoxForItem:item];
+    [[SandBoxManager sharedSandBoxManager] saveDataWithImage:data IntoSandBoxForItem:item];
 }
 
 
@@ -104,13 +103,8 @@
 
 #pragma mark - DownloadManager
 
--(void)downloadImageForItem:(ItemObject*)item withCompletionBlock:(void(^)(NSData*)) completion {
-    
-    [self.downloadManager downloadImageForItem:item withCompletionBlock:^(NSData* data) {
-        completion(data);
-        [self saveDataWithImage:data IntoSandBoxForItem:item];
-    }];
-    
+- (void)downloadImageForItem:(ItemObject *)item withImageQuality:(ImageQuality)quality withCompletionBlock:(void (^)(NSData *))completion {
+    [[Downloader sharedDownloader] downloadImageForItem:item withImageQuality:quality withCompletionBlock:completion];
 }
 
 @end

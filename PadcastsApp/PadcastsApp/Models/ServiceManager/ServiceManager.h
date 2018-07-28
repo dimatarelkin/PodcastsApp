@@ -11,6 +11,12 @@
 #import "Parser.h"
 #import "ItemObject.h"
 
+typedef enum {
+    ImageQualityHigh = 1000,
+    ImageQualityMedium = 500,
+    ImageQualityLow = 250
+} ImageQuality;
+
 
 //delegate
 @protocol ServiceDownloadDelegate <NSObject>
@@ -36,12 +42,14 @@
 @end
 
 @protocol DownloadManagerProtocol
--(void)downloadImageForItem:(ItemObject*)item withCompletionBlock:(void(^)(NSData*)) completion ;
+-(void)downloadImageForItem:(ItemObject*)item withImageQuality:(ImageQuality)quality
+        withCompletionBlock:(void(^)(NSData*data)) completion;
 @end
 
 
 @interface ServiceManager : NSObject <ParserDelegate, CoreDataHandlingProtocol, SandBoxHanlderProtocol, DownloadManagerProtocol>
 //parser
++(ServiceManager*)sharedManager;
 -(void)downloadAndParseFileFromURL:(NSURL*)url withType:(SourceType)sourceType;
 @property (weak, nonatomic) id<ServiceDownloadDelegate> delegate;
 

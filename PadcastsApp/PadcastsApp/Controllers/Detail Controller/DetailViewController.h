@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ItemObject.h"
+#import "CollectionViewControllerMaster.h"
 
-@interface DetailViewController : UIViewController
-- (instancetype)initWithItem:(ItemObject*)item;
+@interface DetailViewController : UIViewController <ItemDelegate>
+-(void)layoutWithItem:(ItemObject*)item;
+
 @end
