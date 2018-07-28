@@ -8,9 +8,14 @@
 
 #import "DetailViewController.h"
 #import "ServiceManager.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
+
 
 
 @interface DetailViewController ()
+
+@property (assign, nonatomic) SourceType itemType;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIImageView *imageView;
 
@@ -20,9 +25,12 @@
 @property (strong, nonatomic) UILabel *detailsLabel;
 
 @property (strong, nonatomic) UIButton *downloadButton;
+
 @property (strong, nonatomic) UIStackView* stackView;
+@property (strong, nonatomic) NSURL* videoURL;
 
 
+-(void)playAudio;
 -(void)downloadAction:(UIButton*)sender;
 @end
 
@@ -84,6 +92,11 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
     self.imageView.layer.shadowOffset = CGSizeMake(0, 4);
     self.imageView.layer.shadowOpacity = 0.7;
     self.imageView.clipsToBounds = YES;
+    [self.imageView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(tapGestureHandle:)];
+    [self.imageView addGestureRecognizer:tap];
     [self.scrollView addSubview:self.imageView];
 }
 
@@ -124,6 +137,7 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
 
 -(void)setupDownloadButton {
     self.downloadButton = [[UIButton alloc] init];
+    [self.downloadButton addTarget:self action:@selector(downloadAction:) forControlEvents:UIControlEventTouchUpInside];
     self.downloadButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.downloadButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.downloadButton.titleLabel.font = [UIFont fontWithName:@"Futura-Bold" size:22];;
@@ -203,16 +217,13 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
     }
 }
 
-
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
     
 }
 
-
 #pragma mark - Delegate
 - (void)itemWasSelected:(ItemObject *)item {
-    
+
     [[ServiceManager sharedManager] downloadImageForItem:item withImageQuality:ImageQualityHigh withCompletionBlock:^(NSData *data) {
         self.imageView.image = nil;
          UIImage* img = [UIImage imageWithData:data];
@@ -223,8 +234,32 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
     self.titleLabel.text = item.title;
     self.dateLabel.text = item.publicationDate;
     self.detailsLabel.text = item.details;
+    self.itemType = item.sourceType;
+    NSLog(@"link %@", item.content.webLink);
+    self.videoURL = [NSURL URLWithString:item.content.webLink];
 }
 
 
+
+-(void)tapGestureHandle:(UITapGestureRecognizer*)tap {
+    AVPlayer *player = [AVPlayer playerWithURL:self.videoURL];
+    AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+    
+    [self presentViewController:controller animated:YES completion:^{
+        controller.player = player;
+        [player play];
+    }];
+    
+    NSLog(@"sdfsdf");
+}
+
+-(void)playAudioWithURL:(NSURL*)url {
+
+    
+
+}
+
+-(void)downloadAction:(UIButton*)sender {
+}
 
 @end

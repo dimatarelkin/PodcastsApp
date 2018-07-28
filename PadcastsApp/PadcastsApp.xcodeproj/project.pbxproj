@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		322DB21C210CEBA60066FBAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322DB21B210CEBA60066FBAD /* Assets.xcassets */; };
+		322DB21F210D0F0F0066FBAD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 322DB21E210D0F0E0066FBAD /* AVFoundation.framework */; };
+		322DB221210D0F150066FBAD /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 322DB220210D0F150066FBAD /* AVKit.framework */; };
 		3267F6FD210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F3210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m */; };
 		3267F6FE210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F4210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m */; };
 		3267F6FF210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F7210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m */; };
@@ -35,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		322DB21B210CEBA60066FBAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		322DB21E210D0F0E0066FBAD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		322DB220210D0F150066FBAD /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3267F6F1210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		3267F6F2210A631D00E12AAB /* ImageManagedObject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageManagedObject+CoreDataClass.h"; sourceTree = "<group>"; };
 		3267F6F3210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ImageManagedObject+CoreDataClass.m"; sourceTree = "<group>"; };
@@ -86,12 +90,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				322DB221210D0F150066FBAD /* AVKit.framework in Frameworks */,
+				322DB21F210D0F0F0066FBAD /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		322DB21D210D0F0E0066FBAD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				322DB220210D0F150066FBAD /* AVKit.framework */,
+				322DB21E210D0F0E0066FBAD /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3267F703210A63A400E12AAB /* ImageManagedObject */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +145,7 @@
 			children = (
 				624A28E22105E392004FF7BC /* PadcastsApp */,
 				624A28E12105E392004FF7BC /* Products */,
+				322DB21D210D0F0E0066FBAD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
