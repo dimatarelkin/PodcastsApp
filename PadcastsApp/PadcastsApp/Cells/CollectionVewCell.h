@@ -23,6 +23,10 @@
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UILabel     *duration;
 
+
+//temp objects
 -(void)setDataToLabelsFrom:(ItemObject*)item;
+@property (strong, nonatomic) NSURL* currentURL;
+@property (strong, nonatomic) UIImage* currentImage;
 
 @end

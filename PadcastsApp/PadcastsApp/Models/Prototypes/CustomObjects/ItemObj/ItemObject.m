@@ -22,6 +22,7 @@
 - (instancetype)initWithDictionary:(NSDictionary*)objects andSourceType:(SourceType)sourceType{
     self = [super init];
     if (self) {
+        self.isSaved = NO;
         self.sourceType = sourceType;
         self.image = [[Image alloc] init];
         self.content = [[Content alloc] init];

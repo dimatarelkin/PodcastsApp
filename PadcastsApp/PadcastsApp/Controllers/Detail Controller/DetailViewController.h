@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ItemObject.h"
-#import "CollectionViewControllerMaster.h"
+//#import "CollectionViewControllerMaster.h"
 
-@interface DetailViewController : UIViewController <ItemDelegate>
+@interface DetailViewController : UIViewController
 -(void)layoutWithItem:(ItemObject*)item;
+- (void)itemWasSelected:(ItemObject *)item;
 
 @end

@@ -27,7 +27,7 @@
 @property (strong, nonatomic) UIButton *downloadButton;
 
 @property (strong, nonatomic) UIStackView* stackView;
-@property (strong, nonatomic) NSURL* videoURL;
+@property (strong, nonatomic) ItemObject* item;
 
 
 -(void)playAudio;
@@ -42,8 +42,12 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
 
 
 - (void)viewDidLoad {
-    NSLog(@"DetailController has been show");
     [super viewDidLoad];
+    NSLog(@"DetailController has been shown");
+//    self.navigationItem.title = @"Item";
+//    self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
+//    self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
+    
 }
 
 
@@ -105,7 +109,6 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
 -(void)setupTitleLabel {
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightBold];
     UIFont* gillSans = [UIFont fontWithName:@"GillSans-Bold" size:30];
     self.titleLabel.font = gillSans;
     
@@ -143,8 +146,6 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
     self.downloadButton.titleLabel.font = [UIFont fontWithName:@"Futura-Bold" size:22];;
     self.downloadButton.backgroundColor = UIColor.whiteColor;
     self.downloadButton.layer.cornerRadius = 15;
-//    self.downloadButton.layer.borderWidth = 1;
-//    self.downloadButton.layer.borderColor = UIColor.darkGrayColor.CGColor;
     [self.downloadButton setTitle:@"Download" forState:UIControlStateNormal];
     [self.downloadButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [self.downloadButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
@@ -205,7 +206,7 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
        [self.stackView.topAnchor constraintEqualToAnchor:self.imageView.bottomAnchor constant:20],
        [self.stackView.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:20],
        [self.stackView.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-20],
-       [self.stackView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:10]
+       [self.stackView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-20]
        ]];
 }
 
@@ -225,9 +226,13 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
 - (void)itemWasSelected:(ItemObject *)item {
 
     [[ServiceManager sharedManager] downloadImageForItem:item withImageQuality:ImageQualityHigh withCompletionBlock:^(NSData *data) {
-        self.imageView.image = nil;
-         UIImage* img = [UIImage imageWithData:data];
-        [self.imageView setImage:img];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            UIImage* img = [UIImage imageWithData:data];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.imageView setImage:img];
+            });
+        });
     }];
     
     self.authorLabel.text = item.author;
@@ -235,31 +240,71 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
     self.dateLabel.text = item.publicationDate;
     self.detailsLabel.text = item.details;
     self.itemType = item.sourceType;
-    NSLog(@"link %@", item.content.webLink);
-    self.videoURL = [NSURL URLWithString:item.content.webLink];
+    NSLog(@"link to %@ - %@",item.sourceType == MP3SourceType ? @"MP3":@"Video",item.content.webLink);
+    self.item = item;
+    
+    if (item.isSaved) {
+        [self.downloadButton setTitle:@"Saved" forState:UIControlStateNormal];
+    }else {
+        [self.downloadButton setTitle:@"Download" forState:UIControlStateNormal];
+    }
+        
 }
 
 
 
+
 -(void)tapGestureHandle:(UITapGestureRecognizer*)tap {
-    AVPlayer *player = [AVPlayer playerWithURL:self.videoURL];
+    AVPlayer *player;
+    if (self.item.isSaved) {
+         player = [AVPlayer playerWithURL:[NSURL URLWithString:self.item.content.webLink]]; //localLink for offLine mode
+    } else {
+         player = [AVPlayer playerWithURL:[NSURL URLWithString:self.item.content.webLink]];
+    }
+    
     AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
     
     [self presentViewController:controller animated:YES completion:^{
         controller.player = player;
         [player play];
     }];
-    
-    NSLog(@"sdfsdf");
+    NSLog(@"playing video");
 }
 
 -(void)playAudioWithURL:(NSURL*)url {
 
-    
-
 }
 
--(void)downloadAction:(UIButton*)sender {
+-(void)downloadAction:(UIButton*)button {
+    [self changeButton:button forState:UIControlStateHighlighted animated:YES];
+    [self changeButton:button forState:UIControlStateNormal animated:YES];
+    
+    if (_item.isSaved == NO) {
+        _item.isSaved = YES;
+        [self.downloadButton setTitle:@"Saved" forState:UIControlStateNormal];
+        [[ServiceManager sharedManager] saveItemIntoCoreData:_item];
+
+//        [[ServiceManager sharedManager] downloadContentForItem:_item];
+    } else {
+        [[ServiceManager sharedManager] deleteItemFromCoredata:_item];
+        _item.isSaved = NO;
+        [self.downloadButton setTitle:@"Download" forState:UIControlStateNormal];
+    }
+}
+
+
+- (void)changeButton:(UIButton*)button forState:(UIControlState)state animated:(BOOL)isAnimated {
+    
+    if (isAnimated) {
+        [UIView animateWithDuration:1 animations:^{
+            if (state == UIControlStateNormal) {
+                button.backgroundColor = UIColor.whiteColor;
+                
+            } else {
+                button.backgroundColor = UIColor.greenColor;
+            }
+        }];
+    }
 }
 
 @end

@@ -10,10 +10,10 @@
 		322DB21C210CEBA60066FBAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322DB21B210CEBA60066FBAD /* Assets.xcassets */; };
 		322DB21F210D0F0F0066FBAD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 322DB21E210D0F0E0066FBAD /* AVFoundation.framework */; };
 		322DB221210D0F150066FBAD /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 322DB220210D0F150066FBAD /* AVKit.framework */; };
+		322DB226210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 322DB224210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.m */; };
+		322DB227210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 322DB225210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.m */; };
 		3267F6FD210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F3210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m */; };
 		3267F6FE210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F4210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m */; };
-		3267F6FF210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F7210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m */; };
-		3267F700210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6F8210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.m */; };
 		3267F701210A631D00E12AAB /* ContentManagedObject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6FB210A631D00E12AAB /* ContentManagedObject+CoreDataClass.m */; };
 		3267F702210A631D00E12AAB /* ContentManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3267F6FC210A631D00E12AAB /* ContentManagedObject+CoreDataProperties.m */; };
 		624A28E52105E392004FF7BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A28E42105E392004FF7BC /* AppDelegate.m */; };
@@ -39,14 +39,14 @@
 		322DB21B210CEBA60066FBAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		322DB21E210D0F0E0066FBAD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		322DB220210D0F150066FBAD /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		322DB222210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ItemManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
+		322DB223210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ItemManagedObject+CoreDataClass.h"; sourceTree = "<group>"; };
+		322DB224210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ItemManagedObject+CoreDataClass.m"; sourceTree = "<group>"; };
+		322DB225210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ItemManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		3267F6F1210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		3267F6F2210A631D00E12AAB /* ImageManagedObject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageManagedObject+CoreDataClass.h"; sourceTree = "<group>"; };
 		3267F6F3210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ImageManagedObject+CoreDataClass.m"; sourceTree = "<group>"; };
 		3267F6F4210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ImageManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
-		3267F6F5210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ItemManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
-		3267F6F6210A631D00E12AAB /* ItemManagedObject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ItemManagedObject+CoreDataClass.h"; sourceTree = "<group>"; };
-		3267F6F7210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ItemManagedObject+CoreDataClass.m"; sourceTree = "<group>"; };
-		3267F6F8210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ItemManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		3267F6F9210A631D00E12AAB /* ContentManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ContentManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		3267F6FA210A631D00E12AAB /* ContentManagedObject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ContentManagedObject+CoreDataClass.h"; sourceTree = "<group>"; };
 		3267F6FB210A631D00E12AAB /* ContentManagedObject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ContentManagedObject+CoreDataClass.m"; sourceTree = "<group>"; };
@@ -121,10 +121,10 @@
 		3267F704210A63B300E12AAB /* ItemManagedObject */ = {
 			isa = PBXGroup;
 			children = (
-				3267F6F5210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.h */,
-				3267F6F6210A631D00E12AAB /* ItemManagedObject+CoreDataClass.h */,
-				3267F6F7210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m */,
-				3267F6F8210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.m */,
+				322DB222210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.h */,
+				322DB223210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.h */,
+				322DB224210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.m */,
+				322DB225210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.m */,
 			);
 			path = ItemManagedObject;
 			sourceTree = "<group>";
@@ -405,13 +405,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3267F700210A631D00E12AAB /* ItemManagedObject+CoreDataProperties.m in Sources */,
 				62BEF496210A174E0047D450 /* Downloader.m in Sources */,
 				62BEF46D2108721F0047D450 /* CollectionVewCell.m in Sources */,
 				62BEF47B2109C9240047D450 /* CoreDataManager.m in Sources */,
-				3267F6FF210A631D00E12AAB /* ItemManagedObject+CoreDataClass.m in Sources */,
 				3267F702210A631D00E12AAB /* ContentManagedObject+CoreDataProperties.m in Sources */,
 				3267F6FE210A631D00E12AAB /* ImageManagedObject+CoreDataProperties.m in Sources */,
+				322DB226210E50FF0066FBAD /* ItemManagedObject+CoreDataClass.m in Sources */,
 				62BEF4682108717D0047D450 /* CollectionViewControllerMaster.m in Sources */,
 				624A293521061699004FF7BC /* Parser.m in Sources */,
 				624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */,
@@ -419,6 +418,7 @@
 				62BEF4702108B6E20047D450 /* SplitController.m in Sources */,
 				3267F6FD210A631D00E12AAB /* ImageManagedObject+CoreDataClass.m in Sources */,
 				624A29292106111D004FF7BC /* ItemObject.m in Sources */,
+				322DB227210E50FF0066FBAD /* ItemManagedObject+CoreDataProperties.m in Sources */,
 				62BEF493210A10250047D450 /* SandBoxManager.m in Sources */,
 				3267F701210A631D00E12AAB /* ContentManagedObject+CoreDataClass.m in Sources */,
 				624A28F62105E393004FF7BC /* main.m in Sources */,

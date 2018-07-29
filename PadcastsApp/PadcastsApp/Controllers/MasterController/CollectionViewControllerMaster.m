@@ -8,15 +8,18 @@
 
 #import "CollectionViewControllerMaster.h"
 #import "CollectionVewCell.h"
-#import "DetailViewController.h"
+#import "ItemObject.h"
 #import "ServiceManager.h"
 
 
 
 @interface CollectionViewControllerMaster () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ServiceDownloadDelegate>
 
-@property (strong, nonatomic) NSMutableArray *dataSource;
-@property (strong, nonatomic) NSMutableArray *images;
+@property (strong, nonatomic) NSMutableArray *parserData;
+@property (strong, nonatomic) NSMutableArray *cachedData;
+@property (strong, nonatomic) NSMutableArray *dataSourceeee;
+@property (strong, nonatomic) UISegmentedControl* segmentedControl;
+
 
 @end
 
@@ -28,23 +31,35 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString * const kTedURL = @"https://feeds.feedburner.com/tedtalks_video";
-static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss";
-static NSInteger  const kImagesInRequest = 5;
+static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss";
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"Feed";
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"All",@"Saved"]];
+    self.segmentedControl.selectedSegmentIndex = 0;
+    
+    [self.segmentedControl addTarget:self
+                              action:@selector(segmentedControlValueDidChange:)
+                    forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = self.segmentedControl;
+    
+    
     self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
     self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
+    
     
     self.collectionView.backgroundColor = UIColor.whiteColor;
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-   
     self.collectionView.allowsSelection = YES;
-    self.dataSource = [NSMutableArray array];
+
+    
+    self.dataSourceeee = [NSMutableArray array];
+    self.cachedData = [NSMutableArray array];
+    self.parserData = [NSMutableArray array];
     
     // Register cell classes
     [self.collectionView registerClass:[CollectionVewCell class] forCellWithReuseIdentifier:reuseIdentifier];
@@ -56,16 +71,27 @@ static NSInteger  const kImagesInRequest = 5;
     [[ServiceManager sharedManager] downloadAndParseFileFromURL:urlTED withType:TEDSourceType];
     [[ServiceManager sharedManager] downloadAndParseFileFromURL:urlMP3 withType:MP3SourceType];
     
-    
-    
-
-    
-#warning download images
-//    self.images = [NSMutableArray array];
-//    [self getImages];
-    
 }
 
+
+#pragma mark - segmentedControl
+-(void)segmentedControlValueDidChange:(UISegmentedControl*)control {
+    NSLog(@"value changed");
+    
+    [self.dataSourceeee removeAllObjects];
+    [self.cachedData removeAllObjects];
+    
+    if (control.selectedSegmentIndex == 1) {
+        [self.cachedData addObjectsFromArray:
+         [[ServiceManager sharedManager] fetchAllItemsFromCoreData]];
+        [self.dataSourceeee addObjectsFromArray:self.cachedData];
+    } else {
+        [self.dataSourceeee addObjectsFromArray:self.parserData];
+    }
+    
+    
+    [self.collectionView reloadData];
+}
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -76,51 +102,26 @@ static NSInteger  const kImagesInRequest = 5;
 
 //CELL
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataSource.count;
+    return self.dataSourceeee.count;
 }
 
 
 #warning methodDownloader
-//-(void)getImages {
-//    [[Downloader sharedDownloader]
-//     getImagesWithOffset:[self.images count]
-//     count:kImagesInRequest
-//     onSuccess:^(NSArray *images) {
-//         [self.images addObjectsFromArray:images];
-//
-//         NSMutableArray* newPaths = [NSMutableArray array];
-//         for (int i = (int)[self.images count] - (int)[images count]; i < self.images.count; i++) {
-//             [newPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-//         }
-//         [self.collectionView insertItemsAtIndexPaths:newPaths];
-//     }
-//     onFailure:^(NSError *error, NSInteger statusCode) {
-//         NSLog(@"error = %@, status code = %ld",[error localizedDescription], (long)statusCode);
-//     }];
-//}
-
-
 
 
 //CELL REUSE
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionVewCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
+    ItemObject* item = [self.dataSourceeee objectAtIndex:indexPath.row];
+    
+    NSLog(@"cell number = %ld",(long)indexPath.row);
     [cell setDataToLabelsFrom:item];
     
-    if (item.image.localLink != nil) {
-        [cell.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
-    } else {
-        [[ServiceManager sharedManager] downloadImageForItem:item withImageQuality:ImageQualityLow withCompletionBlock:^(NSData *data) {
-            [[ServiceManager sharedManager] saveDataWithImage:data IntoSandBoxForItem:item];
-            UIImage* img = [UIImage imageWithData:data];
-            [cell.imageView setImage:img];
-        }];
-    }
     
-
     return cell;
 }
+
+
 
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -128,9 +129,15 @@ static NSInteger  const kImagesInRequest = 5;
 }
 
 -(void)downloadingWasFinished:(NSArray*)result {
-    [self.dataSource addObjectsFromArray:result];
+    [self.dataSourceeee removeAllObjects];
+    //empty
+    
+    [self.parserData addObjectsFromArray:result];
+    
+    [self.dataSourceeee addObjectsFromArray:result];
+    
     [self.collectionView reloadData];
-    NSLog(@"count = %lu",(unsigned long)self.dataSource.count);
+    NSLog(@"count = %lu",(unsigned long)self.dataSourceeee.count);
 }
 
 
@@ -149,12 +156,15 @@ static NSInteger  const kImagesInRequest = 5;
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
- 
-    ItemObject *item = [self.dataSource objectAtIndex:indexPath.row];
-//    [self.itemDelegate itemWasSelected:item];
-    DetailViewController* detail = [[DetailViewController alloc] init];
-    [detail itemWasSelected:item];
-    [self.splitViewController showDetailViewController:detail sender:nil];
+
+    [self.collectionView cellForItemAtIndexPath:indexPath].backgroundColor = UIColor.whiteColor;
+    ItemObject *item = [self.dataSourceeee objectAtIndex:indexPath.row];
+    [self.detailVC itemWasSelected:item];
+    [self.navigationController.splitViewController showDetailViewController:self.detailVC sender:self];
+
+    
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+   
     
     NSLog(@"item at %ld was tapped", (long)indexPath.row);
 }

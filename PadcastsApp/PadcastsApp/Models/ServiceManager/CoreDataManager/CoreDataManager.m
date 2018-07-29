@@ -90,6 +90,7 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     manageObject.guid = item.guiD;
     manageObject.sourceType = item.sourceType;
     manageObject.pubDate = [self createDateFromString:item.publicationDate];
+    manageObject.isSaved = item.isSaved;
     
     [manageObject setImage:imageManagedObject];
     imageManagedObject.localLink = item.image.localLink;
@@ -98,7 +99,6 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     [manageObject setContent: contentManagedObject];
     contentManagedObject.localLink = item.content.localLink;
     contentManagedObject.webLink = item.content.webLink;
-    
     
     NSLog(@" local content = %@, web = %@",contentManagedObject.localLink, contentManagedObject.webLink);
     NSLog(@" image content = %@, web = %@",imageManagedObject.localLink, imageManagedObject.webLink);
@@ -147,12 +147,6 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     }
 }
 
--(NSDate*)createDateFromString:(NSString*)string {
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
-    NSDate *date = [dateFormat dateFromString:string];
-    return date;
-}
 
 
 - (ItemObject *)fetchItemfromCoredata:(NSString*)guid {
@@ -166,7 +160,6 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     }
     return item;
 }
-
 
 
 -(void)deleteAllDataFromCoreData {
@@ -190,6 +183,7 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     }
 }
 
+
 - (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
     NSArray* results;
@@ -203,16 +197,22 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
         for (ItemManagedObject *manageObject in results) {
             ItemObject* item = [[ItemObject alloc] init];
           
+            item.guiD = manageObject.guid;
             item.title = manageObject.title ;
             item.author =  manageObject.author;
             item.details = manageObject.details;
             item.duration = manageObject.duration;
             item.sourceType = (NSInteger)manageObject.sourceType == 0 ? MP3SourceType : TEDSourceType;
-//            item.publicationDate = manageObject.pubDate;
+            item.publicationDate = [self stringFromDate: manageObject.pubDate];
+            
+#warning trouble with data here
             item.content.localLink = manageObject.content.localLink;
             item.content.webLink = manageObject.content.webLink;
             item.image.localLink = manageObject.image.localLink;
             item.image.webLink = manageObject.image.webLink;
+            
+            
+            item.isSaved = manageObject.isSaved;
             [items addObject:item];
         }
         
@@ -227,14 +227,28 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     return items;
 }
 
+- (void)saveDataItemsIntoCoreData:(NSArray<ItemObject *> *)items {
+    for (ItemObject* item in items  ) {
+        [self saveItemIntoCoreData:item];
+    }
+}
 
 
 
-//
-//- (void)saveDataItemsIntoCoreData:(NSArray<ItemObject *> *)items {
-//    <#code#>
-//}
+#pragma mark - DateFormatting
+-(NSString*)stringFromDate:(NSDate*)date {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    NSString *string = [dateFormat stringFromDate:date];
+    return string;
+}
 
+-(NSDate*)createDateFromString:(NSString*)string {
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
+    NSDate *date = [dateFormat dateFromString:string];
+    return date;
+}
 
 
 @end

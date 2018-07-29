@@ -15,6 +15,8 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 
 
 @interface CollectionVewCell()
+@property (strong, nonatomic) ItemObject* itemObj;
+
 
 @end
 
@@ -78,22 +80,30 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 
 
 -(void)setDataToLabelsFrom:(ItemObject*)item {
+    self.itemObj = item;
+    
     self.title.text = item.title;
     self.author.text = item.author;
     [self.author setTextAlignment:NSTextAlignmentLeft];
     [self setDateLabelWithDate:item.publicationDate];
     self.duration.text = item.duration;
     
-//    if (item.image.localLink != nil) {
-//        [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
-//        NSLog(@"%@",item.image.localLink);
-//    } else {
-//        [[ServiceManager sharedManager] downloadImageForItem:item withCompletionBlock:^(NSData* data) {
-//            UIImage* img = [UIImage imageWithData:data];
-//            [self.imageView setImage:img];
-//        }];
-//    }
-    
+    if (item.image.localLink != nil) {
+        [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
+    } else {
+        [[ServiceManager sharedManager] downloadImageForItem:item
+                                            withImageQuality:ImageQualityLow
+                                         withCompletionBlock:^(NSData *data) {
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                UIImage* img = [UIImage imageWithData:data];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.imageView.image = img;
+                });
+            });
+        }];
+    }
+
     if (item.sourceType == MP3SourceType) {
       [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
     } else {
@@ -145,5 +155,18 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 }
 
 
+//if its real current image
+//- (void)setCurrentImage:(UIImage *)currentImage {
+//    if ([self.currentURL.absoluteString isEqualToString:self.itemObj.image.localLink]) {
+//        _currentImage = currentImage;
+//    }
+//}
+
+
+
+-(void)prepareForReuse {
+    
+//    NSLog(@"prepare for reuse");
+}
 
 @end

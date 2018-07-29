@@ -41,9 +41,13 @@ typedef enum {
 -(ItemObject*)fetchContentfromSandBox:(ItemObject*)item;    //returns audio or video content
 @end
 
+//downloading
 @protocol DownloadManagerProtocol
 -(void)downloadImageForItem:(ItemObject*)item withImageQuality:(ImageQuality)quality
         withCompletionBlock:(void(^)(NSData*data)) completion;
+- (void)cancelTasksThatDontNeedToBeDone:(NSInteger)task;
+
+-(void)downloadContentForItem:(ItemObject*)item;
 @end
 
 

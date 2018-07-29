@@ -37,6 +37,7 @@ static NSString * const kElementSourceType  = @"sourceType";
 @property (strong, nonatomic) NSString  *duration;
 @property (strong, nonatomic) NSString  *publicationDate;
 @property (assign, nonatomic) SourceType sourceType;
+@property (assign, nonatomic) BOOL isSaved;
 
 - (instancetype)initWithDictionary:(NSDictionary*)objects andSourceType:(SourceType)sourceType;
 

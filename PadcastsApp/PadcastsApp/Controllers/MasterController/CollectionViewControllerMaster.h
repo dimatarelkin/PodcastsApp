@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ItemObject.h"
+
+#import "DetailViewController.h"
 
 
-@protocol ItemDelegate
--(void)itemWasSelected:(ItemObject*)item;
-@end
+
 
 @interface CollectionViewControllerMaster : UICollectionViewController
-@property (weak, nonatomic) id<ItemDelegate> itemDelegate;
+@property (strong, nonatomic) DetailViewController * detailVC;
 @end
 
 

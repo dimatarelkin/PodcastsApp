@@ -103,8 +103,20 @@
 
 #pragma mark - DownloadManager
 
-- (void)downloadImageForItem:(ItemObject *)item withImageQuality:(ImageQuality)quality withCompletionBlock:(void (^)(NSData *))completion {
-    [[Downloader sharedDownloader] downloadImageForItem:item withImageQuality:quality withCompletionBlock:completion];
+-(void)downloadImageForItem:(ItemObject*)item withImageQuality:(ImageQuality)quality
+        withCompletionBlock:(void(^)(NSData*data)) completion {
+    
+    [[Downloader sharedDownloader] downloadImageForItem:item
+                                        withImageQuality:quality
+                                     withCompletionBlock:completion];
+}
+
+- (void)cancelTasksThatDontNeedToBeDone:(NSInteger)task {
+    [[Downloader sharedDownloader]cancelTasksThatDontNeedToBeDone:task];
+}
+
+-(void)downloadContentForItem:(ItemObject*)item {
+    [[Downloader sharedDownloader] downloadContentForItem:item];
 }
 
 @end
