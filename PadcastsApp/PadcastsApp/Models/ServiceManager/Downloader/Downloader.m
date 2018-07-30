@@ -10,8 +10,7 @@
 #import "SandBoxManager.h"
 
 
-@interface Downloader() <NSURLSessionDelegate>
-@property (strong, nonatomic) NSURL* currentURL;
+@interface Downloader() <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate>
 @property (strong, nonatomic) NSMutableArray* blocks;
 @end
 
@@ -47,7 +46,6 @@
     }
   
     
-    
     dispatch_block_t block = dispatch_block_create(0, ^{
         NSURLSessionDownloadTask* task =
         [[NSURLSession sharedSession]
@@ -57,9 +55,9 @@
              dispatch_async(queue, ^{
                 item.image.localLink = location.absoluteString;
                 NSData* data = [NSData dataWithContentsOfURL:location options:NSDataReadingMappedIfSafe error:nil];
-                [[SandBoxManager sharedSandBoxManager] saveDataWithImage:data IntoSandBoxForItem:item];
                  
                  dispatch_async(dispatch_get_main_queue(), ^{
+                      [[SandBoxManager sharedSandBoxManager] saveDataWithImage:data IntoSandBoxForItem:item];
                      completion(data);
                  });
              });
@@ -74,39 +72,51 @@
 //    NSLog(@"counted blocks %lu",(unsigned long)self.blocks.count);
     
 }
-//
-//- (void)cancelTasksThatDontNeedToBeDone:(NSInteger)task {
-//    for (dispatch_block_t block in self.blocks) {
-//        if ([self.blocks[task] isEqual:block]) {
-//            dispatch_block_cancel(block);
-//        }
-//    }
-//}
 
-//-(void)downloadContentForItem:(ItemObject*)item {
-//    NSURL *url = [NSURL URLWithString:item.content.webLink];
-//
-//    NSURLSessionConfiguration *config =
-//    [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:item.content.webLink];
-//    [config setDiscretionary:YES];
-//    [config setSessionSendsLaunchEvents:YES];
-//
-//    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-//
-//    NSURLSessionDownloadTask* downloadTask =
-//    [session downloadTaskWithURL:url
-//               completionHandler:^(NSURL * location, NSURLResponse * response, NSError * error) {
-//                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-//                       NSData* data = [NSData dataWithContentsOfURL:location options:NSDataReadingMappedIfSafe error:nil];
-//
-//                       dispatch_async(dispatch_get_main_queue(), ^{
-//                           NSLog(@"Downloading is Finished");
-//                       });
-//                   });
-//               }];
-//    [downloadTask resume];
-//
-//}
 
+- (void)cancelTasksThatDontNeedToBeDone:(NSInteger)task {
+    for (dispatch_block_t block in self.blocks) {
+        if ([self.blocks[task] isEqual:block]) {
+            dispatch_block_cancel(block);
+        }
+    }
+}
+
+
+#warning download the video
+
+-(void)downloadContentForItem:(ItemObject*)item {
+    NSURL *url = [NSURL URLWithString:item.content.webLink];
+
+    NSURLSessionConfiguration *config =
+    [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:item.content.webLink];
+    [config setDiscretionary:YES];
+    [config setSessionSendsLaunchEvents:YES];
+
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSessionDownloadTask* downloadTask = [session downloadTaskWithURL:url];
+    [downloadTask resume];
+}
+
+
+//-(void)URLSession
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    
+    if (totalBytesExpectedToWrite > 0) {
+        float progress = (float)totalBytesWritten / (float)totalBytesExpectedToWrite;
+        NSLog(@"Progress %@ : %.3f", [downloadTask description], progress);
+    }
+}
+
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask* )downloadTask didFinishDownloadingToURL:(NSURL *)location {
+
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    
+}
 
 @end

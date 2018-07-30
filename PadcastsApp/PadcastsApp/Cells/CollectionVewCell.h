@@ -26,7 +26,6 @@
 
 //temp objects
 -(void)setDataToLabelsFrom:(ItemObject*)item;
-@property (strong, nonatomic) NSURL* currentURL;
 @property (strong, nonatomic) UIImage* currentImage;
 
 @end

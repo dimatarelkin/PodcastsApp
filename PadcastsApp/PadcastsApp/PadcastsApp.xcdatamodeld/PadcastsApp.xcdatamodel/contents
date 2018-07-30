@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
-    <entity name="ContentManagedObject" representedClassName="ContentManagedObject" syncable="YES">
-        <attribute name="localLink" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="webLink" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ItemManagedObject" inverseName="content" inverseEntity="ItemManagedObject" syncable="YES"/>
-    </entity>
-    <entity name="ImageManagedObject" representedClassName="ImageManagedObject" syncable="YES">
-        <attribute name="localLink" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="webLink" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ItemManagedObject" inverseName="image" inverseEntity="ItemManagedObject" syncable="YES"/>
-    </entity>
-    <entity name="ItemManagedObject" representedClassName="ItemManagedObject" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ItemMO" representedClassName="ItemMO" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentLocalLink" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentWebLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="guid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageLocalLink" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageWebLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isSaved" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="pubDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="sourceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="content" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ContentManagedObject" inverseName="item" inverseEntity="ContentManagedObject" syncable="YES"/>
-        <relationship name="image" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ImageManagedObject" inverseName="item" inverseEntity="ImageManagedObject" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ContentManagedObject" positionX="-288" positionY="-277" width="128" height="88"/>
-        <element name="ImageManagedObject" positionX="-290" positionY="-135" width="128" height="88"/>
-        <element name="ItemManagedObject" positionX="-90" positionY="-288" width="128" height="193"/>
+        <element name="ItemMO" positionX="-281" positionY="-499" width="128" height="223"/>
     </elements>
 </model>

@@ -17,8 +17,10 @@
 
 @property (strong, nonatomic) NSMutableArray *parserData;
 @property (strong, nonatomic) NSMutableArray *cachedData;
-@property (strong, nonatomic) NSMutableArray *dataSourceeee;
+@property (strong, nonatomic) NSMutableArray *dataSource;
 @property (strong, nonatomic) UISegmentedControl* segmentedControl;
+@property (strong, nonatomic) DetailViewController* detail;
+
 
 
 @end
@@ -31,7 +33,7 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 static NSString * const kTedURL = @"https://feeds.feedburner.com/tedtalks_video";
-static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss";
+static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss";
 
 
 - (void)viewDidLoad {
@@ -55,14 +57,17 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.allowsSelection = YES;
-
     
-    self.dataSourceeee = [NSMutableArray array];
+    
+    self.dataSource = [NSMutableArray array];
     self.cachedData = [NSMutableArray array];
     self.parserData = [NSMutableArray array];
     
     // Register cell classes
     [self.collectionView registerClass:[CollectionVewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    
+    //detailVC
+    self.detail = [[DetailViewController alloc] init];
     
     NSURL* urlMP3 = [NSURL URLWithString:kMP3URL];
     NSURL* urlTED = [NSURL URLWithString:kTedURL];
@@ -71,6 +76,7 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
     [[ServiceManager sharedManager] downloadAndParseFileFromURL:urlTED withType:TEDSourceType];
     [[ServiceManager sharedManager] downloadAndParseFileFromURL:urlMP3 withType:MP3SourceType];
     
+  
 }
 
 
@@ -78,15 +84,15 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
 -(void)segmentedControlValueDidChange:(UISegmentedControl*)control {
     NSLog(@"value changed");
     
-    [self.dataSourceeee removeAllObjects];
+    [self.dataSource removeAllObjects];
     [self.cachedData removeAllObjects];
     
     if (control.selectedSegmentIndex == 1) {
         [self.cachedData addObjectsFromArray:
          [[ServiceManager sharedManager] fetchAllItemsFromCoreData]];
-        [self.dataSourceeee addObjectsFromArray:self.cachedData];
+        [self.dataSource addObjectsFromArray:self.cachedData];
     } else {
-        [self.dataSourceeee addObjectsFromArray:self.parserData];
+        [self.dataSource addObjectsFromArray:self.parserData];
     }
     
     
@@ -102,7 +108,7 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
 
 //CELL
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataSourceeee.count;
+    return self.dataSource.count;
 }
 
 
@@ -112,9 +118,7 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
 //CELL REUSE
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionVewCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    ItemObject* item = [self.dataSourceeee objectAtIndex:indexPath.row];
-    
-    NSLog(@"cell number = %ld",(long)indexPath.row);
+    ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
     [cell setDataToLabelsFrom:item];
     
     
@@ -129,15 +133,12 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
 }
 
 -(void)downloadingWasFinished:(NSArray*)result {
-    [self.dataSourceeee removeAllObjects];
-    //empty
-    
+    [self.dataSource removeAllObjects];
     [self.parserData addObjectsFromArray:result];
-    
-    [self.dataSourceeee addObjectsFromArray:result];
+    [self.dataSource addObjectsFromArray:self.parserData];
     
     [self.collectionView reloadData];
-    NSLog(@"count = %lu",(unsigned long)self.dataSourceeee.count);
+    NSLog(@"count = %lu",(unsigned long)self.dataSource.count);
 }
 
 
@@ -158,14 +159,12 @@ static NSString * const kMP3URL = @"http://rss.simplecast.com/podcasts/4669/rss"
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     [self.collectionView cellForItemAtIndexPath:indexPath].backgroundColor = UIColor.whiteColor;
-    ItemObject *item = [self.dataSourceeee objectAtIndex:indexPath.row];
-    [self.detailVC itemWasSelected:item];
-    [self.navigationController.splitViewController showDetailViewController:self.detailVC sender:self];
+    ItemObject *item = [self.dataSource objectAtIndex:indexPath.row];
+    [self.detail itemWasSelected:item];
+    [self.splitViewController showDetailViewController:self.detail sender:self];
 
     
     [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
-   
-    
     NSLog(@"item at %ld was tapped", (long)indexPath.row);
 }
 

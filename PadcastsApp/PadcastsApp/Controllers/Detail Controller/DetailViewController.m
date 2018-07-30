@@ -44,17 +44,14 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"DetailController has been shown");
-//    self.navigationItem.title = @"Item";
-//    self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
-//    self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
-    
 }
 
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.navigationItem.titleView.backgroundColor = UIColor.redColor;
+        self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        self.navigationItem.leftItemsSupplementBackButton = YES;
         self.view.backgroundColor = UIColor.whiteColor;
         [self setupViews];
     }
@@ -240,7 +237,6 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
     self.dateLabel.text = item.publicationDate;
     self.detailsLabel.text = item.details;
     self.itemType = item.sourceType;
-    NSLog(@"link to %@ - %@",item.sourceType == MP3SourceType ? @"MP3":@"Video",item.content.webLink);
     self.item = item;
     
     if (item.isSaved) {

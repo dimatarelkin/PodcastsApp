@@ -10,12 +10,13 @@
 #import "ServiceManager.h"
 
 
-static NSString * const kMusicPlaceHolder = @"music_placeholder2";
-static NSString * const kVideoPlaceHolder = @"video_placeholder3";
+static NSString * const kMusicPlaceHolder = @"music_placeholder";
+static NSString * const kVideoPlaceHolder = @"video_placeholder";
 
 
 @interface CollectionVewCell()
 @property (strong, nonatomic) ItemObject* itemObj;
+@property (strong, nonatomic) NSString* currentURL;
 
 
 @end
@@ -67,7 +68,6 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
     [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
     
     
-    
     //setting socntrainst and stack
     [self createInfoStackView];
     [self createImageAndTypeStackView];
@@ -88,7 +88,8 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
     [self setDateLabelWithDate:item.publicationDate];
     self.duration.text = item.duration;
     
-    if (item.image.localLink != nil) {
+    if (item.image.localLink != nil ) {
+//        NSLog(@"image local link exists!");
         [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
     } else {
         [[ServiceManager sharedManager] downloadImageForItem:item
@@ -97,6 +98,7 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 UIImage* img = [UIImage imageWithData:data];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.imageView.image = img;
                 });
@@ -165,7 +167,12 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder3";
 
 
 -(void)prepareForReuse {
-    
+    //in this we should cancel tasks
+//    if ([self.currentURL isEqualToString:self.itemObj.image.webLink]) {
+//        self.imageView.image = self.currentImage;
+//    } else {
+//        [self.imageView setImage:[UIImage imageNamed:kVideoPlaceHolder]];
+//    }
 //    NSLog(@"prepare for reuse");
 }
 

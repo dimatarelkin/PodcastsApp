@@ -7,14 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "DetailViewController.h"
 
 
 
 
 @interface CollectionViewControllerMaster : UICollectionViewController
-@property (strong, nonatomic) DetailViewController * detailVC;
 @end
 
 

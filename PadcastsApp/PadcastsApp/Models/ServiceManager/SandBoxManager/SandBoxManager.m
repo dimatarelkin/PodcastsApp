@@ -17,7 +17,7 @@
 
 @implementation SandBoxManager
 
-static NSString * const kDirectory = @"/mages";
+static NSString * const kDirectory = @"/Images";
 
 
 +(SandBoxManager*)sharedSandBoxManager {
@@ -25,8 +25,6 @@ static NSString * const kDirectory = @"/mages";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [[SandBoxManager alloc] init];
-        manager.fileManager = [[NSFileManager alloc] init];
-        [manager createDirectory];
         manager.counter = 0;
     });
     return manager;
@@ -35,7 +33,7 @@ static NSString * const kDirectory = @"/mages";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _fileManager = [[NSFileManager alloc] init];
+        _fileManager = [NSFileManager defaultManager];
         [self createDirectory];
     }
     return self;
@@ -59,30 +57,39 @@ static NSString * const kDirectory = @"/mages";
 - (void)saveDataWithImage:(NSData*)data IntoSandBoxForItem:(ItemObject *)item {
     
     NSString *destinationPath = [self.directory stringByAppendingPathComponent:item.guiD];
+    
     [self.fileManager createFileAtPath:destinationPath contents:data attributes:nil];
     item.image.localLink = destinationPath;
-//    NSLog(@"link = %@",destinationPath);
+    NSLog(@"link = %@",destinationPath);
     
 }
 
+
 - (UIImage *)fetchImageFromSandBoxForItem:(ItemObject *)item {
-    NSData *data = [NSData dataWithContentsOfFile:item.image.localLink];
-    return [UIImage imageWithData:data];
+    
+    if ([self.fileManager fileExistsAtPath:item.image.localLink]) {
+        NSData *data = [NSData dataWithContentsOfFile:item.image.localLink];
+        return [UIImage imageWithData:data];
+    } else {
+        NSLog(@"filie don't exists");
+        return nil;
+    }
+    
 }
 
 
-//
-//
-//
-//
-//- (ItemObject *)fetchContentfromSandBox:(ItemObject *)item {
-//    <#code#>
-//}
-//
-//
-//- (void)saveContent:(NSObject *)content IntoSandBoxForItem:(ItemObject *)item {
-//    <#code#>
-//}
+#warning sandbox content downloading
+- (ItemObject *)fetchContentfromSandBox:(ItemObject *)item {
+    return item;
+}
+
+
+- (void)saveContent:(NSObject *)content IntoSandBoxForItem:(ItemObject *)item {
+    
+}
+
+
+
 
 
 

@@ -7,13 +7,10 @@
 //
 
 #import "CoreDataManager.h"
-#import "ItemManagedObject+CoreDataClass.h"
-#import "ImageManagedObject+CoreDataClass.h"
-#import "ContentManagedObject+CoreDataClass.h"
+#import "ItemMO+CoreDataClass.h"
 
-static NSString * const kItemEntity = @"ItemManagedObject";
-static NSString * const kImageEntity = @"ImageManagedObject";
-static NSString * const kContentEntity = @"ContentManagedObject";
+static NSString * const kItemEntity = @"ItemMO";
+
 
 @interface CoreDataManager ()
 - (void)saveContext;
@@ -71,18 +68,13 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
 //ADD
 - (void)saveItemIntoCoreData:(ItemObject *)item {
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kItemEntity inManagedObjectContext:self.persistentContainer.viewContext];
-    NSEntityDescription *imageEntityDiscription = [NSEntityDescription entityForName:kImageEntity inManagedObjectContext:self.persistentContainer.viewContext];
-    NSEntityDescription *contentEntityDiscription = [NSEntityDescription entityForName:kContentEntity inManagedObjectContext:self.persistentContainer.viewContext];
     
     if (!entityDescription) {
         NSLog(@"could not find entity description");
         return;
     }
     
-    ItemManagedObject* manageObject = [[ItemManagedObject alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
-    ImageManagedObject *imageManagedObject = [[ImageManagedObject alloc] initWithEntity:imageEntityDiscription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
-    ContentManagedObject *contentManagedObject = [[ContentManagedObject alloc] initWithEntity:contentEntityDiscription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
-    
+    ItemMO* manageObject = [[ItemMO alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:self.persistentContainer.viewContext];
     manageObject.title  = item.title;
     manageObject.author = item.author;
     manageObject.details = item.details;
@@ -92,17 +84,16 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     manageObject.pubDate = [self createDateFromString:item.publicationDate];
     manageObject.isSaved = item.isSaved;
     
-    [manageObject setImage:imageManagedObject];
-    imageManagedObject.localLink = item.image.localLink;
-    imageManagedObject.webLink = item.image.webLink;
+    manageObject.imageLocalLink = item.image.localLink;
+    manageObject.imageWebLink = item.image.webLink;
+  
+    manageObject.contentLocalLink = item.content.localLink;
+    manageObject.contentWebLink = item.content.webLink;
     
-    [manageObject setContent: contentManagedObject];
-    contentManagedObject.localLink = item.content.localLink;
-    contentManagedObject.webLink = item.content.webLink;
     
-    NSLog(@" local content = %@, web = %@",contentManagedObject.localLink, contentManagedObject.webLink);
-    NSLog(@" image content = %@, web = %@",imageManagedObject.localLink, imageManagedObject.webLink);
-    NSLog(@"title = %@",[manageObject description]);
+//    NSLog(@" local content = %@, web = %@",manageObject.contentLocalLink, manageObject.contentWebLink);
+//    NSLog(@" image content = %@, web = %@",manageObject.imageLocalLink, manageObject.imageWebLink);
+//    NSLog(@"title = %@",[manageObject description]);
     
     [self saveContext];
 }
@@ -113,7 +104,7 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"guid == %@",item.guiD];
     [fetchRequest setPredicate:predicate];
     
-    ItemManagedObject *manageObject = [[self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil] firstObject];
+    ItemMO *manageObject = [[self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil] firstObject];
     if ([item.guiD isEqualToString: manageObject.guid]) {
         [self.persistentContainer.viewContext deleteObject:manageObject];
         [self saveContext];
@@ -124,11 +115,11 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
 
 //UPDATE
 -(void)updateDataAndSetLocalLinks:(ItemObject*)item {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
+    NSFetchRequest *fetchRequest = [ItemMO fetchRequest];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"guid == %@",item.guiD];
     [fetchRequest setPredicate:predicate];
-    
-    ItemManagedObject *manageObject = [[self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil] firstObject];
+
+    ItemMO *manageObject = [[self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil] firstObject];
     if ([item.guiD isEqualToString: manageObject.guid]) {
         manageObject.title  = item.title;
         manageObject.author = item.author;
@@ -136,11 +127,12 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
         manageObject.duration = item.duration;
         manageObject.sourceType = item.sourceType;
         manageObject.pubDate = [self createDateFromString:item.publicationDate];
-        manageObject.content.localLink = item.content.localLink;
-        manageObject.content.webLink = item.content.webLink;
-        manageObject.image.localLink = item.image.localLink;
-        manageObject.image.webLink = item.image.webLink;
-        
+
+        manageObject.contentLocalLink = item.content.localLink;
+        manageObject.contentWebLink = item.content.webLink;
+        manageObject.imageLocalLink = item.image.localLink;
+        manageObject.imageWebLink = item.image.webLink;
+
         NSLog(@"item = %@", [item description]);
         [self saveContext];
         NSLog(@"Object has been updated");
@@ -173,7 +165,7 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
         if (results.count == 0) {
             NSLog(@"Context is empty");
         } else {
-            for (ItemManagedObject *manageObject in results) {
+            for (ItemMO *manageObject in results) {
                 //cleaning context
                 [manageObject.managedObjectContext deleteObject:manageObject];
             }
@@ -185,7 +177,7 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
 
 
 - (NSArray<ItemObject *> *)fetchAllItemsFromCoreData {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:kItemEntity];
+    NSFetchRequest *fetchRequest = [ItemMO fetchRequest];
     NSArray* results;
     NSMutableArray* items = [NSMutableArray array];
     
@@ -194,8 +186,11 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
     } else {
         results = [self.persistentContainer.viewContext executeFetchRequest:fetchRequest error:nil];
         
-        for (ItemManagedObject *manageObject in results) {
+        for (ItemMO *manageObject in results) {
             ItemObject* item = [[ItemObject alloc] init];
+            Image* img = [[Image alloc] init];
+            Content* content = [[Content alloc] init];
+           
           
             item.guiD = manageObject.guid;
             item.title = manageObject.title ;
@@ -205,13 +200,13 @@ static NSString * const kCoreDataBaseName = @"PadcastsApp";
             item.sourceType = (NSInteger)manageObject.sourceType == 0 ? MP3SourceType : TEDSourceType;
             item.publicationDate = [self stringFromDate: manageObject.pubDate];
             
-#warning trouble with data here
-            item.content.localLink = manageObject.content.localLink;
-            item.content.webLink = manageObject.content.webLink;
-            item.image.localLink = manageObject.image.localLink;
-            item.image.webLink = manageObject.image.webLink;
-            
-            
+            content.localLink = manageObject.contentLocalLink;
+            content.webLink = manageObject.contentWebLink;
+            img.localLink = manageObject.imageLocalLink;
+            img.webLink = manageObject.imageWebLink;
+            item.image = img;
+            item.content = content;
+
             item.isSaved = manageObject.isSaved;
             [items addObject:item];
         }

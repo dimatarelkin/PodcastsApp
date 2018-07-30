@@ -19,6 +19,8 @@
 @property (strong, nonatomic) Downloader      * downloadManager;
 @end
 
+
+
 @implementation ServiceManager
 
 
@@ -76,14 +78,7 @@
 
 
 
-
-
-
-
-#warning incomplete sandbox methods
 #pragma mark - SandBox Handler
-
-
 - (UIImage *)fetchImageFromSandBoxForItem:(ItemObject *)item {
     return  [[SandBoxManager sharedSandBoxManager] fetchImageFromSandBoxForItem:item];
 }
@@ -96,7 +91,9 @@
     [[SandBoxManager sharedSandBoxManager] saveDataWithImage:data IntoSandBoxForItem:item];
 }
 
-
+- (ItemObject *)fetchContentfromSandBox:(ItemObject *)item {
+    return [[SandBoxManager sharedSandBoxManager] fetchContentfromSandBox:item];
+}
 
 
 

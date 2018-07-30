@@ -30,7 +30,6 @@
     DetailViewController * detail = [[DetailViewController alloc] init];
 
     UINavigationController * nav =[[UINavigationController alloc]  initWithRootViewController:master];
-    master.detailVC = detail;
     
     UINavigationController * navDetail = [[UINavigationController alloc] initWithRootViewController:detail];
     
