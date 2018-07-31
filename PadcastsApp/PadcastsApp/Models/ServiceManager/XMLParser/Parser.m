@@ -16,6 +16,8 @@
 @property (strong, nonatomic) NSString * currentElement;
 @property (strong, nonatomic) NSMutableDictionary *resultObject;
 @property (assign, nonatomic) SourceType currentSourceType;
+@property (strong, nonatomic) NSMutableArray* arrayOfObjects;
+@property (strong, nonatomic) NSArray *tags;
 
 @end
 
@@ -34,13 +36,15 @@
 }
 
 
-- (void)downloadDataFromURL:(NSURL *)url {
+- (void)downloadDataFromURL:(NSURL *)url{
     NSURLSession* session = [NSURLSession sharedSession];
     NSURLSessionDownloadTask *downloadTask =
     [session downloadTaskWithURL:url completionHandler:^(NSURL *  location, NSURLResponse *  response, NSError *  error) {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              NSData* data = [NSData dataWithContentsOfURL:location];
+            
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.xmlParser = [[NSXMLParser alloc] initWithData:data];
                 self.xmlParser.delegate = self;

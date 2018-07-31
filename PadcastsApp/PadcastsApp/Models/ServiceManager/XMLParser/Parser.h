@@ -15,12 +15,11 @@
 -(void)downloadingWasFinishedWithResult:(NSArray*)result;
 @end
 
-@interface Parser : NSObject <NSXMLParserDelegate>
 
+
+@interface Parser : NSObject <NSXMLParserDelegate>
 @property (weak, nonatomic) id<ParserDelegate> delegate;
 
-@property (strong, nonatomic) NSMutableArray* arrayOfObjects;
-@property (strong, nonatomic) NSArray *tags;
 -(void)beginDownloadingWithURL:(NSURL*)url andSourceType:(SourceType)sourceType;
 @end
 

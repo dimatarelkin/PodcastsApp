@@ -9,15 +9,15 @@
 #import "SandBoxManager.h"
 
 @interface SandBoxManager()
-@property (strong,nonatomic) NSString * directory;
 @property (strong, nonatomic) NSFileManager* fileManager;
+@property (strong,nonatomic) NSString * directory;
 
 @property (assign, nonatomic) int counter;
 @end
 
 @implementation SandBoxManager
 
-static NSString * const kDirectory = @"/Images";
+static NSString * const kDirectory = @"Images";
 
 
 +(SandBoxManager*)sharedSandBoxManager {
@@ -33,41 +33,48 @@ static NSString * const kDirectory = @"/Images";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _fileManager = [NSFileManager defaultManager];
-        [self createDirectory];
+      _fileManager = [NSFileManager defaultManager];
+      _directory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
+    [self createDirectoryWithPath:[NSString stringWithFormat:@"/%@", kDirectory]];
     }
     return self;
 }
 
--(void)createDirectory {
-    self.directory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-    [self createDirectoryWithPath:kDirectory];
-    
-    
-}
 
 -(void)createDirectoryWithPath:(NSString*)path {
     NSString *destinationPath = [self.directory stringByAppendingPathComponent:path];
-    self.directory = destinationPath;
-    [self.fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:NO attributes:nil error:nil];
+    [self.fileManager createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:nil];
 }
 
-//removeFileAtURL
 
 - (void)saveDataWithImage:(NSData*)data IntoSandBoxForItem:(ItemObject *)item {
-    
-    NSString *destinationPath = [self.directory stringByAppendingPathComponent:item.guiD];
-    
-    [self.fileManager createFileAtPath:destinationPath contents:data attributes:nil];
+
+    NSString* path = [self localFilePathForWebURL:item.image.webLink atDirectory:kDirectory];
+    NSString *destinationPath = [self.directory stringByAppendingString:path];
     item.image.localLink = destinationPath;
-    NSLog(@"link = %@",destinationPath);
+    [self.fileManager createFileAtPath:destinationPath contents:data attributes:nil];
     
+}
+
+
+- (NSString *)localFilePathForWebURL:(NSString *)webStringUrl atDirectory:(NSString *)directory  {
+    NSString *localPath = [NSString stringWithFormat:@"/%@/%@", directory, [self getFilenameFromStringURL:webStringUrl]];
+    NSLog(@"local path = %@", localPath);
+    return localPath;
+}
+
+
+- (NSString *)getFilenameFromStringURL:(NSString *)stringUrl {
+    NSURL *url = [NSURL URLWithString:stringUrl];
+    NSString *fileTitle = url.lastPathComponent;
+    return fileTitle;
 }
 
 
 - (UIImage *)fetchImageFromSandBoxForItem:(ItemObject *)item {
     
     if ([self.fileManager fileExistsAtPath:item.image.localLink]) {
+        NSLog(@"local path = %@", item.image.localLink);
         NSData *data = [NSData dataWithContentsOfFile:item.image.localLink];
         return [UIImage imageWithData:data];
     } else {
@@ -78,15 +85,15 @@ static NSString * const kDirectory = @"/Images";
 }
 
 
-#warning sandbox content downloading
-- (ItemObject *)fetchContentfromSandBox:(ItemObject *)item {
-    return item;
-}
-
-
-- (void)saveContent:(NSObject *)content IntoSandBoxForItem:(ItemObject *)item {
-    
-}
+//#warning sandbox content downloading
+//- (ItemObject *)fetchContentfromSandBox:(ItemObject *)item {
+//    return item;
+//}
+//
+//
+//- (void)saveContent:(NSObject *)content IntoSandBoxForItem:(ItemObject *)item {
+//
+//}
 
 
 

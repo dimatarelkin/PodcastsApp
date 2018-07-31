@@ -11,7 +11,7 @@
 //#import "CollectionViewControllerMaster.h"
 
 @interface DetailViewController : UIViewController
--(void)layoutWithItem:(ItemObject*)item;
+
 - (void)itemWasSelected:(ItemObject *)item;
 
 @end

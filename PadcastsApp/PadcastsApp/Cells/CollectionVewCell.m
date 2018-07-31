@@ -18,6 +18,16 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
 @property (strong, nonatomic) ItemObject* itemObj;
 @property (strong, nonatomic) NSString* currentURL;
 
+//right StackView
+@property (strong, nonatomic) UIStackView *infoStack;
+@property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UILabel *author;
+@property (strong, nonatomic) UILabel *date;
+
+//left StackView
+@property (strong, nonatomic) UIStackView *imageAndTypeStack;
+@property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UILabel     *duration;
 
 @end
 
@@ -89,8 +99,8 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     self.duration.text = item.duration;
     
     if (item.image.localLink != nil ) {
-//        NSLog(@"image local link exists!");
         [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
+        NSLog(@"LOCAL LONK EXIXST");
     } else {
         [[ServiceManager sharedManager] downloadImageForItem:item
                                             withImageQuality:ImageQualityLow
