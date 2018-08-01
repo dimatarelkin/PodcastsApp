@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "Content.h"
 #import "Image.h"
 
@@ -38,6 +39,8 @@ static NSString * const kElementSourceType  = @"sourceType";
 @property (strong, nonatomic) NSString  *publicationDate;
 @property (assign, nonatomic) SourceType sourceType;
 @property (assign, nonatomic) BOOL isSaved;
+@property (strong, nonatomic) UIImage* itemImage;
+
 
 - (instancetype)initWithDictionary:(NSDictionary*)objects andSourceType:(SourceType)sourceType;
 

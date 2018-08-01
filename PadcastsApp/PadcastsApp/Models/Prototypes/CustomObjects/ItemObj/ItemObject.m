@@ -7,6 +7,7 @@
 //
 
 #import "ItemObject.h"
+#import "ServiceManager.h"
 
 @implementation ItemObject
 
@@ -46,6 +47,29 @@
     NSDate *date = [dateFormat dateFromString:self.publicationDate];
     [dateFormat setDateFormat:@"E dd MMM yyyy HH:mm"];
     self.publicationDate = [dateFormat stringFromDate:date];
+}
+
+
+#warning image Downloading
+- (UIImage *)itemImage {
+   __block UIImage* image = [[UIImage alloc] init];
+    
+    if (self.image.localLink) {
+        return [[ServiceManager sharedManager] fetchImageFromSandBoxForItem:self];
+    
+    } else {
+        
+        [[ServiceManager sharedManager] downloadImageForItem:self withImageQuality:ImageQualityLow withCompletionBlock:^(NSData *data) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                UIImage* img = [UIImage imageWithData:data];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    image = img;
+                });
+            });
+        }];
+    }
+    return image;
 }
 
 @end

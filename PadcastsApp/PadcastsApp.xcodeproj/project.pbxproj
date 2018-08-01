@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		322DB21F210D0F0F0066FBAD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 322DB21E210D0F0E0066FBAD /* AVFoundation.framework */; };
 		322DB221210D0F150066FBAD /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 322DB220210D0F150066FBAD /* AVKit.framework */; };
+		6214F9DB2111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.m in Sources */ = {isa = PBXBuildFile; fileRef = 6214F9DA2111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.m */; };
 		624A28E52105E392004FF7BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 624A28E42105E392004FF7BC /* AppDelegate.m */; };
 		624A28EB2105E392004FF7BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 624A28E92105E392004FF7BC /* Main.storyboard */; };
 		624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 624A28EC2105E392004FF7BC /* PadcastsApp.xcdatamodeld */; };
@@ -34,6 +35,8 @@
 /* Begin PBXFileReference section */
 		322DB21E210D0F0E0066FBAD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		322DB220210D0F150066FBAD /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		6214F9D92111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CollectionViewControllerMaster+XMLDownloading.h"; sourceTree = "<group>"; };
+		6214F9DA2111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CollectionViewControllerMaster+XMLDownloading.m"; sourceTree = "<group>"; };
 		624A28E02105E392004FF7BC /* PadcastsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PadcastsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		624A28E32105E392004FF7BC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		624A28E42105E392004FF7BC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 			children = (
 				62BEF4662108717D0047D450 /* CollectionViewControllerMaster.h */,
 				62BEF4672108717D0047D450 /* CollectionViewControllerMaster.m */,
+				6214F9D92111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.h */,
+				6214F9DA2111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.m */,
 			);
 			path = MasterController;
 			sourceTree = "<group>";
@@ -370,6 +375,7 @@
 				624A293521061699004FF7BC /* Parser.m in Sources */,
 				624A28EE2105E392004FF7BC /* PadcastsApp.xcdatamodeld in Sources */,
 				629A96E021073CCC004E809B /* ServiceManager.m in Sources */,
+				6214F9DB2111D2B700FE71D9 /* CollectionViewControllerMaster+XMLDownloading.m in Sources */,
 				62BEF4702108B6E20047D450 /* SplitController.m in Sources */,
 				624A29292106111D004FF7BC /* ItemObject.m in Sources */,
 				62BEF493210A10250047D450 /* SandBoxManager.m in Sources */,

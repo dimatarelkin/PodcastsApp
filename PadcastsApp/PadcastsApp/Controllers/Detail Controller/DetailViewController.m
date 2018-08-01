@@ -50,8 +50,6 @@ static NSString * const kPlaceHolder = @"video_placeholder3";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        self.navigationItem.leftItemsSupplementBackButton = YES;
         self.view.backgroundColor = UIColor.whiteColor;
         [self setupViews];
     }

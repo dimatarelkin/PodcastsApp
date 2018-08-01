@@ -95,7 +95,6 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
         [self.dataSource addObjectsFromArray:self.parserData];
     }
     
-    
     [self.collectionView reloadData];
 }
 
@@ -111,16 +110,21 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
     return self.dataSource.count;
 }
 
-
 #warning methodDownloader
-
 
 //CELL REUSE
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionVewCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
     ItemObject* item = [self.dataSource objectAtIndex:indexPath.row];
     [cell setDataToLabelsFrom:item];
     
+//    //Block async
+//    
+//    CollectionVewCell *updatedCell = (CollectionVewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+//    // init image on updatedCell
+//    
+//    //Block
     
     return cell;
 }
@@ -145,15 +149,15 @@ static NSString * const kMP3URL = @"https://rss.simplecast.com/podcasts/4669/rss
 
 #pragma mark <UICollectionViewDelegate>
 
-//- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
-//
-//
-//// Uncomment this method to specify if the specified item should be selected
-//- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+
+// Uncomment this method to specify if the specified item should be selected
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

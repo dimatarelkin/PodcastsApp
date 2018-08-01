@@ -45,29 +45,21 @@
      queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     }
   
-    
-    dispatch_block_t block = dispatch_block_create(0, ^{
         NSURLSessionDownloadTask* task =
         [[NSURLSession sharedSession]
          downloadTaskWithURL:url
          completionHandler:^(NSURL * location, NSURLResponse * response, NSError * error) {
              
              dispatch_async(queue, ^{
-                item.image.localLink = location.absoluteString;
                 NSData* data = [NSData dataWithContentsOfURL:location options:NSDataReadingMappedIfSafe error:nil];
-                 
+                 [[SandBoxManager sharedSandBoxManager] saveDataWithImage:data IntoSandBoxForItem:item];
                  dispatch_async(dispatch_get_main_queue(), ^{
-                      [[SandBoxManager sharedSandBoxManager] saveDataWithImage:data IntoSandBoxForItem:item];
+                     
                      completion(data);
                  });
              });
          }];
         [task resume];
-    });
-    
-    //array of block
-    [self.blocks addObject:block];
-    block();
     
 //    NSLog(@"counted blocks %lu",(unsigned long)self.blocks.count);
     

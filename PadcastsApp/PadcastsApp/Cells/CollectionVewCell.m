@@ -98,23 +98,24 @@ static NSString * const kVideoPlaceHolder = @"video_placeholder";
     [self setDateLabelWithDate:item.publicationDate];
     self.duration.text = item.duration;
     
-    if (item.image.localLink != nil ) {
-        [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
-        NSLog(@"LOCAL LONK EXIXST");
-    } else {
-        [[ServiceManager sharedManager] downloadImageForItem:item
-                                            withImageQuality:ImageQualityLow
-                                         withCompletionBlock:^(NSData *data) {
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                UIImage* img = [UIImage imageWithData:data];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.imageView.image = img;
-                });
-            });
-        }];
-    }
+    self.imageView.image = item.itemImage;
+//    if (item.image.localLink != nil ) {
+//        [self.imageView setImage:[[ServiceManager sharedManager] fetchImageFromSandBoxForItem:item]];
+//        NSLog(@"LOCAL LINK EXIXST");
+//    } else {
+//        [[ServiceManager sharedManager] downloadImageForItem:item
+//                                            withImageQuality:ImageQualityLow
+//                                         withCompletionBlock:^(NSData *data) {
+//
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                UIImage* img = [UIImage imageWithData:data];
+//
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    self.imageView.image = img;
+//                });
+//            });
+//        }];
+//    }
 
     if (item.sourceType == MP3SourceType) {
       [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
